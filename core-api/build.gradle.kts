@@ -27,6 +27,7 @@ java {
     toolchain.vendor.set(JvmVendorSpec.JETBRAINS)
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     withJavadocJar()
+    withSourcesJar()
 }
 
 neoForge {
@@ -53,7 +54,7 @@ tasks.withType<Jar> {
                 "Specification-Version" to "1", // We are version 1 of ourselves
                 "Implementation-Title" to "Compact Machines - Core API",
                 "Implementation-Timestamp" to now,
-                "FMLModType" to "LIBRARY",
+                "FMLModType" to "GAMELIBRARY",
                 "Minecraft-Version" to mojang.versions.minecraft.get(),
                 "NeoForge-Version" to neoforged.versions.neoforge.get(),
                 "Main-Commit" to gitVersion
