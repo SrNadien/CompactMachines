@@ -38,6 +38,13 @@ jobs:
           name: generated-data
           path: neoforge-main/src/generated/resources
 
+      - name: Store Compiled Core
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-core
+          path: core-api/build
+
       - name: Store Compiled
         if: success()
         uses: actions/upload-artifact@v4
