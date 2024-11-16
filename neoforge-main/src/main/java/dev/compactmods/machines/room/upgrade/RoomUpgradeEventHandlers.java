@@ -1,8 +1,10 @@
 package dev.compactmods.machines.room.upgrade;
 
+import dev.compactmods.machines.CompactMachinesCommon;
 import dev.compactmods.machines.api.CompactMachines;
 import dev.compactmods.machines.api.dimension.CompactDimension;
 import dev.compactmods.machines.api.room.upgrade.events.lifecycle.UpgradeTickedEventListener;
+import dev.compactmods.machines.feature.CMFeatureFlags;
 import dev.compactmods.machines.room.Rooms;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -18,6 +20,9 @@ import java.util.stream.Collectors;
 public class RoomUpgradeEventHandlers {
 
    public static void onLevelTick(LevelTickEvent.Post postTick) {
+	   if(!CMFeatureFlags.ROOM_UPGRADES.isSubsetOf(postTick.getLevel().enabledFeatures()))
+		   return;
+
 	  if (postTick.getLevel() instanceof ServerLevel serverLevel && CompactDimension.isLevelCompact(serverLevel)) {
 		 final var rooms = CompactMachines.roomApi()
 			 .registrar()

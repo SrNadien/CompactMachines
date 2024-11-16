@@ -8,6 +8,7 @@ import dev.compactmods.machines.api.machine.MachineTranslations;
 import dev.compactmods.machines.api.room.RoomTranslations;
 import dev.compactmods.machines.client.keybinds.room.RoomExitKeyMapping;
 import dev.compactmods.machines.client.creative.CreativeTabs;
+import dev.compactmods.machines.client.keybinds.room.RoomUpgradeUIMapping;
 import dev.compactmods.machines.datagen.lang.BaseLangGenerator;
 import dev.compactmods.machines.room.Rooms;
 import dev.compactmods.machines.shrinking.Shrinking;
@@ -67,6 +68,7 @@ public class EnglishLangGenerator extends BaseLangGenerator {
 
         add(RoomExitKeyMapping.I18n.CATEGORY, "Compact Machines");
         add(RoomExitKeyMapping.I18n.NAME, "Quick-Exit Compact Machine");
+        add(RoomUpgradeUIMapping.NAME, "Open Room Upgrade Screen");
 
         addJade();
     }

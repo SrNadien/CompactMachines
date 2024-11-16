@@ -1,14 +1,12 @@
 package dev.compactmods.machines.room.upgrade.example;
 
-import com.mojang.serialization.Codec;
-import dev.compactmods.machines.api.room.RoomInstance;
-import dev.compactmods.machines.api.room.upgrade.DataProvidingUpgrade;
 import dev.compactmods.machines.api.room.upgrade.RoomUpgrade;
-import dev.compactmods.machines.api.room.upgrade.RoomUpgradeDefinition;
+import dev.compactmods.machines.api.room.upgrade.RoomUpgradeType;
+import dev.compactmods.machines.feature.CMFeatureFlags;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
-import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.function.Consumer;
 
@@ -30,7 +28,7 @@ public class InventoryProvidingUpgrade implements RoomUpgrade {
 //   }
 
    @Override
-   public RoomUpgradeDefinition<?> getType() {
+   public RoomUpgradeType<?> getType() {
 	  return null;
    }
 

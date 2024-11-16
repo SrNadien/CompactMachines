@@ -3,11 +3,13 @@ package dev.compactmods.machines.client.keybinds.room;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.compactmods.machines.api.CompactMachines;
 import dev.compactmods.machines.api.dimension.CompactDimension;
+import dev.compactmods.machines.feature.CMFeatureFlags;
 import dev.compactmods.machines.network.PlayerRequestedUpgradeUIPacket;
 import dev.compactmods.machines.room.Rooms;
 import net.minecraft.Util;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.client.settings.IKeyConflictContext;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -34,9 +36,14 @@ public class RoomUpgradeUIMapping {
    public static void handle() {
 	  final var level = Minecraft.getInstance().level;
 	  final var player = Minecraft.getInstance().player;
-	  if (level != null && level.dimension().equals(CompactDimension.LEVEL_KEY)) {
-		 final var currentRoom = player.getData(Rooms.DataAttachments.CURRENT_ROOM_CODE);
-		 PacketDistributor.sendToServer(new PlayerRequestedUpgradeUIPacket(currentRoom, true));
+	  if (player != null && level != null && level.dimension().equals(CompactDimension.LEVEL_KEY)) {
+		  if(CMFeatureFlags.ROOM_UPGRADES.isSubsetOf(level.enabledFeatures())) {
+			  player.getExistingData(Rooms.DataAttachments.CURRENT_ROOM_CODE).ifPresent(currentRoom -> {
+                  PacketDistributor.sendToServer(new PlayerRequestedUpgradeUIPacket(currentRoom, true));
+			  });
+		  } else {
+			  player.displayClientMessage(Component.literal("You must enable room upgrades for this keybind!"), true);
+		  }
 	  }
    }
 }

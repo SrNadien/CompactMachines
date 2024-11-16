@@ -28,6 +28,15 @@ public abstract class AABBHelper {
         return fitsInside(outer, sizeOf(inner));
     }
 
+    public static Stream<BlockPos> floorCorners(AABB bounds) {
+        Stream.Builder<BlockPos> stream = Stream.builder();
+        stream.add(BlockPos.containing(bounds.maxX - 1, bounds.minY, bounds.maxZ - 1));
+        stream.add(BlockPos.containing(bounds.minX, bounds.minY, bounds.maxZ - 1));
+        stream.add(BlockPos.containing(bounds.maxX - 1, bounds.minY, bounds.minZ));
+        stream.add(BlockPos.containing(bounds.minX, bounds.minY, bounds.minZ));
+        return stream.build();
+    }
+
     public static Vec3 minCorner(AABB aabb) {
         return new Vec3(aabb.minX, aabb.minY, aabb.minZ);
     }

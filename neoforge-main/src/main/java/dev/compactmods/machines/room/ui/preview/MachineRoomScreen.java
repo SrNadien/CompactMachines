@@ -3,6 +3,7 @@ package dev.compactmods.machines.room.ui.preview;
 import dev.compactmods.machines.api.CompactMachines;
 import dev.compactmods.machines.client.render.NineSliceRenderer;
 import dev.compactmods.machines.client.widget.ImageButtonBuilder;
+import dev.compactmods.machines.feature.CMFeatureFlags;
 import dev.compactmods.machines.network.PlayerRequestedTeleportPacket;
 import dev.compactmods.machines.network.PlayerRequestedUpgradeUIPacket;
 import dev.compactmods.machines.shrinking.Shrinking;
@@ -56,19 +57,28 @@ public class MachineRoomScreen extends AbstractContainerScreen<MachineRoomMenu> 
 
         addRenderableWidget(psdButton);
 
-        final var upgradeBtnSprites = new WidgetSprites(
-                CompactMachines.modRL("upgrade_btn"),
-                CompactMachines.modRL("upgrade_btn")
-        );
+        // EXPERIMENTAL: Room Upgrades
+        roomUpgradesButton();
+    }
 
-        var upgradeScreenBtn = ImageButtonBuilder.button(upgradeBtnSprites)
-                .size(12, 12)
-                .location(leftPos + imageWidth - 24, topPos + 212)
-                .onPress(btn -> {
-                    PacketDistributor.sendToServer(new PlayerRequestedUpgradeUIPacket(menu.getRoom(), false));
-                }).build();
+    private void roomUpgradesButton() {
+        if(this.minecraft == null || this.minecraft.getConnection() == null) return;
+        if(CMFeatureFlags.ROOM_UPGRADES.isSubsetOf(minecraft.getConnection().enabledFeatures()))
+        {
+            final var upgradeBtnSprites = new WidgetSprites(
+                    CompactMachines.modRL("upgrade_btn"),
+                    CompactMachines.modRL("upgrade_btn")
+            );
 
-        addRenderableWidget(upgradeScreenBtn);
+            var upgradeScreenBtn = ImageButtonBuilder.button(upgradeBtnSprites)
+                    .size(12, 12)
+                    .location(leftPos + imageWidth - 24, topPos + 212)
+                    .onPress(btn -> {
+                        PacketDistributor.sendToServer(new PlayerRequestedUpgradeUIPacket(menu.getRoom(), false));
+                    }).build();
+
+            addRenderableWidget(upgradeScreenBtn);
+        }
     }
 
     @Override

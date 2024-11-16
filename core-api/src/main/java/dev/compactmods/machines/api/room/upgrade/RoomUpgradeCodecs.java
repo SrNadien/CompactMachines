@@ -10,11 +10,11 @@ import net.minecraft.network.codec.StreamCodec;
 
 public interface RoomUpgradeCodecs {
     Codec<RoomUpgrade> DISPATCH_CODEC = Codec.lazyInitialized(() -> {
-       @SuppressWarnings("unchecked") final var reg = (Registry<RoomUpgradeDefinition<?>>) BuiltInRegistries.REGISTRY.get(CompactMachines.modRL("room_upgrades"));
+       @SuppressWarnings("unchecked") final var reg = (Registry<RoomUpgradeType<?>>) BuiltInRegistries.REGISTRY.get(CompactMachines.modRL("room_upgrades"));
 
        if (reg != null) {
           var upgradeRegistry = reg.byNameCodec();
-          return upgradeRegistry.dispatchStable(RoomUpgrade::getType, RoomUpgradeDefinition::codec);
+          return upgradeRegistry.dispatchStable(RoomUpgrade::getType, RoomUpgradeType::codec);
        }
 
        throw new RuntimeException("Room upgrade registry not registered yet; calling too early?");

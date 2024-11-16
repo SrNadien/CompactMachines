@@ -2,7 +2,6 @@ package dev.compactmods.machines;
 
 import dev.compactmods.machines.api.room.template.RoomTemplate;
 import dev.compactmods.machines.api.CompactMachines;
-import dev.compactmods.machines.api.room.upgrade.RoomUpgradeDefinition;
 import dev.compactmods.machines.shrinking.Shrinking;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.core.registries.BuiltInRegistries;

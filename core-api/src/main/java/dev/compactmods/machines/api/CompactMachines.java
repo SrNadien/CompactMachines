@@ -8,7 +8,7 @@ import dev.compactmods.machines.api.room.RoomInstance;
 import dev.compactmods.machines.api.room.template.RoomTemplate;
 import dev.compactmods.machines.api.room.data.IRoomDataAttachmentAccessor;
 import dev.compactmods.machines.api.room.history.IPlayerHistoryApi;
-import dev.compactmods.machines.api.room.upgrade.RoomUpgradeDefinition;
+import dev.compactmods.machines.api.room.upgrade.RoomUpgradeType;
 import dev.compactmods.machines.api.util.BlockSpaceUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -34,8 +34,8 @@ public class CompactMachines {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 
-	public static DeferredRegister<RoomUpgradeDefinition<?>> roomUpgradeDR(String namespace) {
-		return DeferredRegister.create(RoomUpgradeDefinition.REG_KEY, namespace);
+	public static DeferredRegister<RoomUpgradeType<?>> roomUpgradeDR(String namespace) {
+		return DeferredRegister.create(RoomUpgradeType.REGISTRY_KEY, namespace);
 	}
 
 	public static IRoomApi roomApi() {

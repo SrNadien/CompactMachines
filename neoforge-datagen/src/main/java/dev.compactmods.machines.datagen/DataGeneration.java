@@ -8,7 +8,12 @@ import dev.compactmods.machines.datagen.loot.BlockLootGenerator;
 import dev.compactmods.machines.datagen.tags.BlockTagGenerator;
 import dev.compactmods.machines.datagen.tags.ItemTagGenerator;
 import dev.compactmods.machines.datagen.tags.PointOfInterestTagGenerator;
+import dev.compactmods.machines.feature.CMFeatureFlags;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.metadata.PackMetadataGenerator;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -27,6 +32,8 @@ public class DataGeneration {
 
         final var packOut = generator.getPackOutput();
         final var holderLookup = event.getLookupProvider();
+
+        addExperimentalPacks(event);
 
         // Server
         boolean server = event.includeServer();
@@ -56,5 +63,16 @@ public class DataGeneration {
         generator.addProvider(client, new ItemModelGenerator(packOut, fileHelper));
 
         generator.addProvider(client, new EnglishLangGenerator(generator));
+    }
+
+    private static void addExperimentalPacks(GatherDataEvent event) {
+        final var generator = event.getGenerator();
+
+        DataGenerator.PackGenerator roomUpgrades = generator.getBuiltinDatapack(true, CompactMachines.MOD_ID, "room_upgrades");
+        roomUpgrades.addProvider(output -> PackMetadataGenerator.forFeaturePack(
+                output,
+                Component.literal("Enables the room upgrade experimental features."),
+                FeatureFlagSet.of(CMFeatureFlags.ROOM_UPDATES_FLAG)
+        ));
     }
 }

@@ -1,16 +1,17 @@
 dependencyResolutionManagement {
     versionCatalogs.create("neoforged") {
-        version("neoforge", "21.1.73")
-        version("neogradle", "7.0.161")
+        val nf =  "21.1.79"
+
+        version("neoforge", nf)
         version("mdg", "2.0.42-beta")
 
         version("neoforgeRange") {
-            require("[21.1,22)")
-            prefer("21.1.22")
+            require("[$nf,)")
+            prefer(nf)
         }
 
-        plugin("neogradle", "net.neoforged.gradle.userdev")
-            .versionRef("neogradle")
+//        plugin("neogradle", "net.neoforged.gradle.userdev")
+//            .versionRef("neogradle")
 
         plugin("moddev", "net.neoforged.moddev")
             .versionRef("mdg")
