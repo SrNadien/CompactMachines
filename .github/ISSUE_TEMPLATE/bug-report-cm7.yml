@@ -1,8 +1,8 @@
-name: Bug Report - Compact Machines 5 (1.19)
-description: Submit a report for Compact Machines 5
+name: Bug Report - Compact Machines 7 (21.1)
+description: Submit a report for Compact Machines 7
 labels:
   - triage
-  - 1.19
+  - 21.1
   - bug
   - unverified
 assignees: []
@@ -40,14 +40,14 @@ body:
   - type: input
     attributes:
       label: Mod Version
-      placeholder: 5.0.0
+      placeholder: 7.0.0
     validations:
       required: true
 
   - type: input
     attributes:
       label: Forge Version
-      placeholder: 1.19.2 - 43.1.0
+      placeholder: 21.1.0
     validations:
       required: true
 
@@ -57,7 +57,7 @@ body:
 
   - type: input
     attributes:
-      label: Link to Crashlog
+      label: Link to Crash Log
       placeholder: pastebin/gist/etc.
 
   - type: textarea
