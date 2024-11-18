@@ -181,9 +181,11 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     additionalRuntimeClasspath(libraries.jnanoid)
+
     compileOnly(compactmods.feather)
     testImplementation(compactmods.feather)
     jarJar(compactmods.feather) { isTransitive = false }
+    additionalRuntimeClasspath(compactmods.feather)
 
     compileOnly(compactmods.spatial)
     testImplementation(compactmods.spatial)
