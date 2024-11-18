@@ -58,7 +58,7 @@ jobs:
       version: ${{ needs.vars.outputs.version }}
 
   prepublish:
-    needs: [vars, tests]
+    needs: [vars, datagen, tests]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
