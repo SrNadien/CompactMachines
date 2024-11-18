@@ -1,6 +1,6 @@
 dependencyResolutionManagement {
     versionCatalogs.create("neoforged") {
-        val nf =  "21.1.79"
+        val nf = "21.1.79"
 
         version("neoforge", nf)
         version("mdg", "2.0.42-beta")
@@ -31,14 +31,21 @@ dependencyResolutionManagement {
         }
     }
 
-    versionCatalogs.create("libraries") {
-        library("feather", "dev.compactmods", "feather")
-                .versionRef("feather")
-
-        library("jnanoid", "com.aventrix.jnanoid", "jnanoid")
-                .versionRef("jnanoid")
-
+    versionCatalogs.create("compactmods") {
         version("feather", "0.1.8")
+        version("spatial", "0.2.1")
+
+        library("feather", "dev.compactmods", "feather")
+            .versionRef("feather")
+
+        library("spatial", "dev.compactmods", "spatial")
+            .versionRef("spatial")
+    }
+
+    versionCatalogs.create("libraries") {
+        library("jnanoid", "com.aventrix.jnanoid", "jnanoid")
+            .versionRef("jnanoid")
+
         version("jnanoid", "[2.0.0, 3)")
 
         version("parchment-mc", "1.21")

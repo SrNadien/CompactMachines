@@ -6,6 +6,7 @@ import dev.compactmods.machines.api.CompactMachines;
 import dev.compactmods.machines.api.util.BlockSpaceUtil;
 import dev.compactmods.machines.test.gametest.core.CompactGameTestHelper;
 import dev.compactmods.machines.test.gametest.core.EmptyTestSizes;
+import dev.compactmods.spatial.aabb.AABBHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
@@ -83,7 +84,7 @@ public class RoomGenerationTests {
             testHelper.setBlock(ob, Blocks.ORANGE_STAINED_GLASS);
         }
 
-        BlockSpaceUtil.forAllCorners(localBounds).forEach(pos -> {
+        AABBHelper.allCorners(localBounds).forEach(pos -> {
             testHelper.setBlock(pos, Blocks.BLACK_STAINED_GLASS);
         });
 
@@ -100,7 +101,7 @@ public class RoomGenerationTests {
         var center = BlockPos.containing(localBounds.getCenter());
         testHelper.setBlock(center, Blocks.GOLD_BLOCK.defaultBlockState());
 
-        BlockSpaceUtil.forAllCorners(localBounds.deflate(5))
+        AABBHelper.allCorners(localBounds.deflate(5))
                 .forEach(bp -> testHelper.setBlock(bp, Blocks.IRON_BLOCK));
 
         testHelper.succeed();

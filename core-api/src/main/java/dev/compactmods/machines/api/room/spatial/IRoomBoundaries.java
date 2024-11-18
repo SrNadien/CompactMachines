@@ -1,8 +1,7 @@
 package dev.compactmods.machines.api.room.spatial;
 
-import dev.compactmods.machines.api.util.AABBHelper;
+import dev.compactmods.spatial.aabb.AABBHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;

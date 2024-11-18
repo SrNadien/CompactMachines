@@ -34,6 +34,24 @@ neoForge {
     version = neoforged.versions.neoforge
 }
 
+repositories {
+    mavenLocal()
+    maven("https://maven.pkg.github.com/compactmods/spatial") {
+        name = "Github PKG - Spatial"
+        credentials {
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
+
+dependencies {
+    compileOnly(compactmods.spatial)
+    jarJar(compactmods.spatial) { isTransitive = false }
+}
+
+
+
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.compilerArgs.add("-proc:none")

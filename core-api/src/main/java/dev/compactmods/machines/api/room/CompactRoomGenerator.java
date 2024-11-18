@@ -1,18 +1,15 @@
 package dev.compactmods.machines.api.room;
 
 import dev.compactmods.machines.api.WallConstants;
-import dev.compactmods.machines.api.room.spatial.IRoomBoundaries;
-import dev.compactmods.machines.api.util.AABBAligner;
-import dev.compactmods.machines.api.util.AABBHelper;
 import dev.compactmods.machines.api.util.BlockSpaceUtil;
-import dev.compactmods.machines.api.util.VectorUtils;
+import dev.compactmods.spatial.aabb.AABBAligner;
+import dev.compactmods.spatial.aabb.AABBHelper;
+import dev.compactmods.spatial.vector.VectorUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -21,7 +18,6 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 
 public class CompactRoomGenerator {
@@ -90,7 +86,7 @@ public class CompactRoomGenerator {
                     .setMirror(Mirror.NONE);
 
             AABB placementBounds = null;
-            final AABBAligner aligner = AABBAligner.create(roomInnerBounds, templateSize);
+            final AABBAligner.Bounded aligner = AABBAligner.create(roomInnerBounds, AABBHelper.zeroOriginSized(templateSize));
             switch (placement) {
                 case CENTERED -> placementBounds = aligner
                         .center(roomInnerBounds.getCenter())
@@ -106,7 +102,8 @@ public class CompactRoomGenerator {
             }
 
             if(placementBounds != null) {
-                BlockPos placeAt = BlockPos.containing(AABBHelper.minCorner(placementBounds));
+                final var pos = AABBHelper.minCorner(placementBounds);
+                BlockPos placeAt = BlockPos.containing(pos.x(), pos.y(), pos.z());
                 tem.placeInWorld(level, placeAt, placeAt, placementSettings, level.random, Block.UPDATE_ALL);
             }
         });

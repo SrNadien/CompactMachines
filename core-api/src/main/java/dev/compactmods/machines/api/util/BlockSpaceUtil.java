@@ -14,19 +14,6 @@ public class BlockSpaceUtil {
         return BlockPos.betweenClosedStream(bounds.contract(1, 1, 1));
     }
 
-    public static Stream<BlockPos> forAllCorners(AABB bounds) {
-        Stream.Builder<BlockPos> stream = Stream.builder();
-        stream.add(BlockPos.containing(bounds.maxX - 1, bounds.maxY - 1, bounds.maxZ - 1));
-        stream.add(BlockPos.containing(bounds.minX, bounds.maxY - 1, bounds.maxZ - 1));
-        stream.add(BlockPos.containing(bounds.maxX - 1, bounds.minY, bounds.maxZ - 1));
-        stream.add(BlockPos.containing(bounds.minX, bounds.minY, bounds.maxZ - 1));
-        stream.add(BlockPos.containing(bounds.maxX - 1, bounds.maxY - 1, bounds.minZ));
-        stream.add(BlockPos.containing(bounds.minX, bounds.maxY - 1, bounds.minZ));
-        stream.add(BlockPos.containing(bounds.maxX - 1, bounds.minY, bounds.minZ));
-        stream.add(BlockPos.containing(bounds.minX, bounds.minY, bounds.minZ));
-        return stream.build();
-    }
-
     public static AABB getWallBounds(AABB area, Direction wall) {
         return getWallBounds(area, wall, 1d);
     }

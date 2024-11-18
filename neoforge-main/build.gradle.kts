@@ -173,10 +173,6 @@ dependencies {
         compileOnly(coreApi)
         testCompileOnly(coreApi)
         jarJar(coreApi)
-
-        compileOnly(libraries.feather)
-        testImplementation(libraries.feather)
-        jarJar(libraries.feather) { isTransitive = false }
     }
 
     runtimeOnly(neoforged.testframework)
@@ -184,8 +180,15 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    additionalRuntimeClasspath(libraries.feather)
     additionalRuntimeClasspath(libraries.jnanoid)
+    compileOnly(compactmods.feather)
+    testImplementation(compactmods.feather)
+    jarJar(compactmods.feather) { isTransitive = false }
+
+    compileOnly(compactmods.spatial)
+    testImplementation(compactmods.spatial)
+    jarJar(compactmods.spatial) { isTransitive = false }
+    additionalRuntimeClasspath(compactmods.spatial)
 }
 
 tasks.withType<Test> {

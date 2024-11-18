@@ -9,7 +9,6 @@ import dev.compactmods.machines.api.room.template.RoomTemplate;
 import dev.compactmods.machines.api.room.registration.IRoomRegistrar;
 import dev.compactmods.machines.api.room.registration.IRoomBuilder;
 import dev.compactmods.feather.MemoryGraph;
-import dev.compactmods.machines.api.util.AABBAligner;
 import dev.compactmods.machines.data.CodecHolder;
 import dev.compactmods.machines.room.graph.node.RoomRegistrationNode;
 import dev.compactmods.machines.util.MathUtil;

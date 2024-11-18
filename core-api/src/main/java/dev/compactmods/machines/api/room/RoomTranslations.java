@@ -2,7 +2,7 @@ package dev.compactmods.machines.api.room;
 
 import dev.compactmods.machines.api.CompactMachines;
 import dev.compactmods.machines.api.room.function.PlayerAndRoomCodeFunction;
-import dev.compactmods.machines.api.util.AABBHelper;
+import dev.compactmods.spatial.aabb.AABBHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
