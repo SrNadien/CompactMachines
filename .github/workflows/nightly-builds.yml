@@ -61,7 +61,10 @@ jobs:
     if: always()
     needs: [vars, tests]
     runs-on: ubuntu-latest
-
+    steps:
+      - name: Log
+        run: echo "Pre-Publish Step"
+        
   publish:
     if: ${{ needs.datagen.result == 'success' }}
     needs: [vars, prepublish]
