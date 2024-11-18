@@ -57,9 +57,14 @@ jobs:
     with:
       version: ${{ needs.vars.outputs.version }}
 
+  prepublish:
+    if: always()
+    needs: [vars, tests]
+    runs-on: ubuntu-latest
+
   publish:
     if: ${{ needs.datagen.result == 'success' }}
-    needs: [vars, tests]
+    needs: [vars, prepublish]
     uses: ./.github/workflows/_publish.yml
     secrets: inherit
     with:
