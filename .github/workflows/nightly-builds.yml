@@ -58,13 +58,13 @@ jobs:
       version: ${{ needs.vars.outputs.version }}
 
   prepublish:
-    if: always()
     needs: [vars, tests]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - name: Log
         run: echo "Pre-Publish Step"
-        
+
   publish:
     if: ${{ needs.datagen.result == 'success' }}
     needs: [vars, prepublish]
