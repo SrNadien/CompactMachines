@@ -5,6 +5,12 @@ env:
 
 on:
   workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: Skip Tests
+        type: boolean
+        default: false
+        required: true
   push:
     paths-ignore:
       - "README.md"
@@ -44,6 +50,7 @@ jobs:
       version: ${{ needs.vars.outputs.version }}
 
   tests:
+    if: ${{ !inputs.skip_tests }}
     needs: [vars, datagen]
     uses: ./.github/workflows/_run-gametests.yml
     secrets: inherit
@@ -51,6 +58,7 @@ jobs:
       version: ${{ needs.vars.outputs.version }}
 
   publish:
+    if: ${{ jobs.datagen.result == 'success' }}
     needs: [vars, tests]
     uses: ./.github/workflows/_publish.yml
     secrets: inherit
