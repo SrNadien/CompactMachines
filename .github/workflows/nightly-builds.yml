@@ -58,7 +58,7 @@ jobs:
       version: ${{ needs.vars.outputs.version }}
 
   publish:
-    if: ${{ jobs.datagen.result == 'success' }}
+    if: ${{ needs.datagen.result == 'success' }}
     needs: [vars, tests]
     uses: ./.github/workflows/_publish.yml
     secrets: inherit
