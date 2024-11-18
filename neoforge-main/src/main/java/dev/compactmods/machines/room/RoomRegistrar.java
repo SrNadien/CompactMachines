@@ -12,6 +12,7 @@ import dev.compactmods.feather.MemoryGraph;
 import dev.compactmods.machines.data.CodecHolder;
 import dev.compactmods.machines.room.graph.node.RoomRegistrationNode;
 import dev.compactmods.machines.util.MathUtil;
+import dev.compactmods.spatial.aabb.AABBAligner;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.phys.AABB;
 import org.apache.logging.log4j.LogManager;

@@ -8,6 +8,8 @@ import dev.compactmods.machines.api.room.upgrade.events.RoomUpgradeEvent;
 import dev.compactmods.machines.api.room.upgrade.events.lifecycle.UpgradeTickedEventListener;
 import dev.compactmods.machines.room.upgrade.RoomUpgrades;
 import dev.compactmods.machines.util.item.ItemHandlerUtil;
+import dev.compactmods.spatial.aabb.AABBHelper;
+import dev.compactmods.spatial.vector.VectorUtils;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -96,7 +98,8 @@ public class TreeCutterUpgrade implements RoomUpgrade {
         if (!treeBlocks.isEmpty()) {
 
             final var bounds = room.boundaries().innerBounds();
-            final var lastDitch = BlockPos.containing(AABBHelper.minCorner(bounds)).above();
+            final var minCorner = AABBHelper.minCorner(bounds);
+            final var lastDitch = BlockPos.containing(minCorner.x(), minCorner.y() + 1, minCorner.z());
 
             // TODO: Actual persistence and cooldowns for when the inventories fill up
             final var inventories = getInventories(level, bounds).toList();
@@ -140,7 +143,7 @@ public class TreeCutterUpgrade implements RoomUpgrade {
     }
 
     private static Stream<LocatedInventory> getInventories(ServerLevel level, AABB bounds) {
-        return AABBHelper.floorCorners(bounds)
+        return AABBHelper.allCorners(bounds)
                 .map(BlockPos::immutable)
                 .flatMap(pos -> Stream.of(
                                 level.getCapability(Capabilities.ItemHandler.BLOCK, pos, null),
