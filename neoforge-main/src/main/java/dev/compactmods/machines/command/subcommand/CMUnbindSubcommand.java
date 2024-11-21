@@ -5,7 +5,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.compactmods.machines.LoggingUtil;
 import dev.compactmods.machines.api.dimension.CompactDimension;
-import dev.compactmods.machines.api.machine.MachineTranslations;
+import dev.compactmods.machines.i18n.MachineTranslations;
 import dev.compactmods.machines.server.ServerConfig;
 import dev.compactmods.machines.machine.Machines;
 import dev.compactmods.machines.machine.block.BoundCompactMachineBlockEntity;

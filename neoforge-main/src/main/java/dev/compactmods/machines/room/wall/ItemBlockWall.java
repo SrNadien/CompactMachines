@@ -1,17 +1,13 @@
 package dev.compactmods.machines.room.wall;
 
-import dev.compactmods.machines.api.Translations;
+import dev.compactmods.machines.i18n.Translations;
 import dev.compactmods.machines.api.WallConstants;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 

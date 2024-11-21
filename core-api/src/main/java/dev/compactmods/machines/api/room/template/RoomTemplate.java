@@ -4,10 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.compactmods.machines.api.CompactMachines;
 import dev.compactmods.machines.api.machine.MachineColor;
-import dev.compactmods.machines.api.machine.MachineTranslations;
 import dev.compactmods.machines.api.room.RoomDimensions;
 import dev.compactmods.machines.api.room.RoomStructureInfo;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -32,12 +32,13 @@ import java.util.function.Consumer;
  * Template structure for creating a new Compact Machine room. These can be added and removed from the registry
  * at any point, so persistent data must be stored outside these instances.
  *
- * @param internalDimensions    The internal dimensions of the room when it is created.
- * @param defaultMachineColor                 The color of the machine blocks created for this template.
- * @param structures            Information used to fill a newly-created room with structures.
+ * @param internalDimensions  The internal dimensions of the room when it is created.
+ * @param defaultMachineColor The color of the machine blocks created for this template.
+ * @param structures          Information used to fill a newly-created room with structures.
  */
-public record RoomTemplate(RoomDimensions internalDimensions, MachineColor defaultMachineColor, List<RoomStructureInfo> structures, Optional<BlockState> optionalFloor)
-    implements TooltipProvider {
+public record RoomTemplate(RoomDimensions internalDimensions, MachineColor defaultMachineColor,
+                           List<RoomStructureInfo> structures, Optional<BlockState> optionalFloor)
+        implements TooltipProvider {
 
     public static final ResourceKey<Registry<RoomTemplate>> REGISTRY_KEY = ResourceKey.createRegistryKey(CompactMachines.modRL("room_templates"));
 
@@ -80,14 +81,19 @@ public record RoomTemplate(RoomDimensions internalDimensions, MachineColor defau
                 .inflate(1);
     }
 
+    public static final String I18N_INTERNAL_ROOM_DIMS = CompactMachines.langPrefix("rooms.templates.room_dimensions");
+    public static final String I18N_STRUCTURE_GEN_TOOLTIP = CompactMachines.langPrefix("rooms.templates.structure_tooltip");
+
     @Override
     public void addToTooltip(Item.TooltipContext ctx, Consumer<Component> tooltips, TooltipFlag flags) {
         final var roomDimensions = internalDimensions();
 
-        tooltips.accept(MachineTranslations.SIZE.apply(roomDimensions.toString()));
+        tooltips.accept(Component.translatableWithFallback(I18N_INTERNAL_ROOM_DIMS, "Internal Size: %s", roomDimensions.toString())
+                .withStyle(ChatFormatting.YELLOW));
 
         if (!structures().isEmpty()) {
-            tooltips.accept(Component.literal("Generates " + structures().size() + " structures after creation.").withStyle(ChatFormatting.DARK_GRAY));
+            tooltips.accept(Component.translatableWithFallback(I18N_STRUCTURE_GEN_TOOLTIP, "Generates %s structures upon room creation.", structures.size())
+                    .withStyle(ChatFormatting.DARK_GRAY));
         }
     }
 }

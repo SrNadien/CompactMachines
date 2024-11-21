@@ -1,9 +1,9 @@
 package dev.compactmods.machines.shrinking;
 
 import dev.compactmods.machines.api.CompactMachines;
-import dev.compactmods.machines.api.Translations;
+import dev.compactmods.machines.i18n.Translations;
 import dev.compactmods.machines.api.dimension.CompactDimension;
-import dev.compactmods.machines.api.room.RoomTranslations;
+import dev.compactmods.machines.i18n.RoomTranslations;
 import dev.compactmods.machines.room.RoomHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;

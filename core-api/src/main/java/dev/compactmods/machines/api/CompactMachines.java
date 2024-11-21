@@ -30,6 +30,10 @@ public class CompactMachines {
 		return ResourceLocation.isValidPath(path) ? (MOD_ID + ":" + path) : MOD_ID + ":invalid";
 	}
 
+	public static String langPrefix(String path) {
+		return MOD_ID + "." + path;
+	}
+
 	public static ResourceLocation modRL(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}

@@ -1,4 +1,4 @@
-package dev.compactmods.machines.api.command;
+package dev.compactmods.machines.i18n;
 
 import dev.compactmods.machines.api.CompactMachines;
 import net.minecraft.Util;

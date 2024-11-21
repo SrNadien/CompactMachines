@@ -1,23 +1,25 @@
-package dev.compactmods.machines.datagen.lang;
+package dev.compactmods.machines.datagen.base.lang;
 
 import dev.compactmods.machines.api.CompactMachines;
-import dev.compactmods.machines.api.Translations;
+import dev.compactmods.machines.api.room.template.RoomTemplate;
+import dev.compactmods.machines.i18n.Translations;
 import dev.compactmods.machines.api.advancement.Advancements;
-import dev.compactmods.machines.api.command.CommandTranslations;
-import dev.compactmods.machines.api.machine.MachineTranslations;
-import dev.compactmods.machines.api.room.RoomTranslations;
+import dev.compactmods.machines.i18n.CommandTranslations;
+import dev.compactmods.machines.i18n.MachineTranslations;
+import dev.compactmods.machines.i18n.RoomTranslations;
 import dev.compactmods.machines.client.keybinds.room.RoomExitKeyMapping;
 import dev.compactmods.machines.client.creative.CreativeTabs;
 import dev.compactmods.machines.client.keybinds.room.RoomUpgradeUIMapping;
-import dev.compactmods.machines.datagen.lang.BaseLangGenerator;
 import dev.compactmods.machines.room.Rooms;
 import dev.compactmods.machines.shrinking.Shrinking;
 import net.minecraft.Util;
+import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 
-public class EnglishLangGenerator extends BaseLangGenerator {
-    public EnglishLangGenerator(DataGenerator gen) {
-        super(gen, "en_us");
+public class EnglishLangGenerator extends dev.compactmods.machines.datagen.base.lang.BaseLangGenerator {
+    public EnglishLangGenerator(PackOutput packOutput) {
+        super(packOutput, "en_us");
     }
 
     @Override
@@ -43,6 +45,11 @@ public class EnglishLangGenerator extends BaseLangGenerator {
         // Room Errors
         add(RoomTranslations.IDs.Errors.CANNOT_ENTER_ROOM, "You fumble with the shrinking device, to no avail. It refuses to work.");
         add(RoomTranslations.IDs.Errors.UNKNOWN_ROOM_BY_CODE, "Room [%s] could not be found.");
+
+        // Room Templates
+        add(RoomTemplate.I18N_STRUCTURE_GEN_TOOLTIP, "Generates %s structures upon room creation.");
+        add(RoomTemplate.I18N_INTERNAL_ROOM_DIMS, "Internal Size: %s");
+
 
         commands();
         advancements();
@@ -75,12 +82,6 @@ public class EnglishLangGenerator extends BaseLangGenerator {
 
     private void blocksAndItems() {
         final var machineTranslation = getMachineTranslation();
-        add("machine.compactmachines.tiny", "%s (%s)".formatted(machineTranslation, "Tiny"));
-        add("machine.compactmachines.small", "%s (%s)".formatted(machineTranslation, "Small"));
-        add("machine.compactmachines.normal", "%s (%s)".formatted(machineTranslation, "Normal"));
-        add("machine.compactmachines.large", "%s (%s)".formatted(machineTranslation, "Large"));
-        add("machine.compactmachines.giant", "%s (%s)".formatted(machineTranslation, "Giant"));
-        add("machine.compactmachines.colossal", "%s (%s)".formatted(machineTranslation, "Colossal"));
 
         addBlock(Rooms.Blocks.BREAKABLE_WALL, "Compact Machine Wall");
         addBlock(Rooms.Blocks.SOLID_WALL, "Solid Compact Machine Wall");

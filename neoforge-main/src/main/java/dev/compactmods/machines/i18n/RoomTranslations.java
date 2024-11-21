@@ -1,6 +1,7 @@
-package dev.compactmods.machines.api.room;
+package dev.compactmods.machines.i18n;
 
 import dev.compactmods.machines.api.CompactMachines;
+import dev.compactmods.machines.api.room.RoomInstance;
 import dev.compactmods.machines.api.room.function.PlayerAndRoomCodeFunction;
 import dev.compactmods.spatial.aabb.AABBHelper;
 import net.minecraft.ChatFormatting;

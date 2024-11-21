@@ -1,5 +1,6 @@
-package dev.compactmods.machines.api;
+package dev.compactmods.machines.i18n;
 
+import dev.compactmods.machines.api.CompactMachines;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;

@@ -1,17 +1,12 @@
 package dev.compactmods.machines.machine.item;
 
-import dev.compactmods.machines.api.Translations;
-import dev.compactmods.machines.api.machine.MachineColor;
-import dev.compactmods.machines.api.machine.MachineTranslations;
-import dev.compactmods.machines.api.room.RoomTranslations;
+import dev.compactmods.machines.i18n.MachineTranslations;
 import dev.compactmods.machines.api.room.template.RoomTemplate;
 import dev.compactmods.machines.machine.MachineColors;
 import dev.compactmods.machines.machine.Machines;
 import net.minecraft.Util;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.CommonColors;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;

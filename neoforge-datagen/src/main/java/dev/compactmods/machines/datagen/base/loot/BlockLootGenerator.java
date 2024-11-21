@@ -1,4 +1,4 @@
-package dev.compactmods.machines.datagen.loot;
+package dev.compactmods.machines.datagen.base.loot;
 
 import dev.compactmods.machines.machine.Machines;
 import dev.compactmods.machines.room.Rooms;

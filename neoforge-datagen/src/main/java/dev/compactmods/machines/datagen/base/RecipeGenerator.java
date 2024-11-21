@@ -1,4 +1,4 @@
-package dev.compactmods.machines.datagen;
+package dev.compactmods.machines.datagen.base;
 
 import dev.compactmods.machines.api.CompactMachines;
 import dev.compactmods.machines.api.room.template.RoomTemplate;
@@ -74,54 +74,5 @@ public class RecipeGenerator extends RecipeProvider {
 			.define('L', Items.LIGHT_WEIGHTED_PRESSURE_PLATE)
 			.unlockedBy("picked_up_ender_eye", RecipeProvider.has(Items.ENDER_EYE))
 			.save(recipeOutput);
-
-		addMachineRecipes(recipeOutput, provider);
-	}
-
-	private void addMachineRecipes(RecipeOutput consumer, HolderLookup.Provider provider) {
-		var allPossible = provider.lookupOrThrow(RoomTemplate.REGISTRY_KEY)
-			.listElements()
-			.toList();
-
-		addMachineRecipe(consumer, provider, CompactMachines.modRL("tiny"), Tags.Items.INGOTS_COPPER);
-		addMachineRecipe(consumer, provider, CompactMachines.modRL("small"), Tags.Items.INGOTS_IRON);
-		addMachineRecipe(consumer, provider, CompactMachines.modRL("normal"), Tags.Items.INGOTS_GOLD);
-		addMachineRecipe(consumer, provider, CompactMachines.modRL("large"), Tags.Items.GEMS_DIAMOND);
-		addMachineRecipe(consumer, provider, CompactMachines.modRL("giant"), Tags.Items.OBSIDIANS);
-		addMachineRecipe(consumer, provider, CompactMachines.modRL("colossal"), Tags.Items.INGOTS_NETHERITE);
-
-		addMachineRecipe(consumer, provider, CompactMachines.modRL("soaryn"), Tags.Items.NETHER_STARS);
-		addMachineRecipe(consumer, provider, CompactMachines.modRL("farming"), Items.DIAMOND_HOE);
-	}
-
-	private void addMachineRecipe(RecipeOutput consumer, HolderLookup.Provider provider, ResourceLocation id, TagKey<Item> catalyst) {
-		final var templateRef = provider.lookupOrThrow(RoomTemplate.REGISTRY_KEY)
-			.getOrThrow(ResourceKey.create(RoomTemplate.REGISTRY_KEY, id));
-
-		machineRecipeBuilder(consumer, templateRef, builder -> builder.define('P', catalyst));
-	}
-
-	private void addMachineRecipe(RecipeOutput consumer, HolderLookup.Provider provider, ResourceLocation id, ItemLike catalyst) {
-		final var templateRef = provider.lookupOrThrow(RoomTemplate.REGISTRY_KEY)
-			.getOrThrow(ResourceKey.create(RoomTemplate.REGISTRY_KEY, id));
-
-		machineRecipeBuilder(consumer, templateRef, builder -> builder.define('P', catalyst));
-	}
-
-	protected void machineRecipeBuilder(RecipeOutput consumer, Holder.Reference<RoomTemplate> templateRef, UnaryOperator<ShapedRecipeBuilder> configure) {
-		final var builder = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Machines.Items.forNewRoom(templateRef))
-			.pattern("WWW")
-			.pattern("EPS")
-			.pattern("WWW")
-			.define('W', Rooms.Items.BREAKABLE_WALL)
-			.define('E', Shrinking.ENLARGING_MODULE)
-			.define('S', Shrinking.SHRINKING_MODULE);
-
-		configure.apply(builder);
-
-		builder.unlockedBy("has_recipe", RecipeProvider.has(Rooms.Items.BREAKABLE_WALL));
-
-		final var recipeId = CompactMachines.modRL("new_machine_" + templateRef.key().location().getPath());
-		builder.save(consumer, recipeId);
 	}
 }

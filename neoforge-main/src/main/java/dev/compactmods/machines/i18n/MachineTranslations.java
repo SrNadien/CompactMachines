@@ -1,4 +1,4 @@
-package dev.compactmods.machines.api.machine;
+package dev.compactmods.machines.i18n;
 
 import dev.compactmods.machines.api.CompactMachines;
 import net.minecraft.ChatFormatting;
@@ -11,9 +11,6 @@ import java.util.function.Function;
 public interface MachineTranslations {
 
     Function<BlockPos, Component> NOT_A_MACHINE_BLOCK = (pos) -> Component.empty();
-
-    Function<String, Component> SIZE = (roomSize) -> Component.translatableWithFallback(MachineTranslations.IDs.SIZE, "Size: %s", roomSize)
-            .withStyle(ChatFormatting.YELLOW);
 
     interface IDs {
         String OWNER = Util.makeDescriptionId("machine", CompactMachines.modRL("machine.owner"));

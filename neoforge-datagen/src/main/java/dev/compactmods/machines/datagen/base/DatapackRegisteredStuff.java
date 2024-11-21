@@ -1,10 +1,10 @@
-package dev.compactmods.machines.datagen;
+package dev.compactmods.machines.datagen.base;
 
 import dev.compactmods.machines.api.machine.MachineColor;
-import dev.compactmods.machines.api.room.RoomDimensions;
 import dev.compactmods.machines.api.room.template.RoomTemplate;
 import dev.compactmods.machines.api.CompactMachines;
 import dev.compactmods.machines.api.dimension.CompactDimension;
+import dev.compactmods.machines.datagen.basic_room_templates.RoomTemplatesGenerator;
 import dev.compactmods.machines.datagen.util.DimensionTypeBuilder;
 import dev.compactmods.machines.dimension.Dimension;
 import net.minecraft.core.HolderLookup;
@@ -44,9 +44,9 @@ public class DatapackRegisteredStuff extends DatapackBuiltinEntriesProvider {
 		.add(Registries.BIOME, DatapackRegisteredStuff::generateBiomes)
 		.add(Registries.DIMENSION_TYPE, DatapackRegisteredStuff::generateDimensionTypes)
 		.add(Registries.LEVEL_STEM, DatapackRegisteredStuff::generateDimensions)
-		.add(RoomTemplate.REGISTRY_KEY, DatapackRegisteredStuff::addRoomTemplates);
+		.add(RoomTemplate.REGISTRY_KEY, (ctx) -> {});
 
-	DatapackRegisteredStuff(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
+	public DatapackRegisteredStuff(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
 		super(packOutput, registries, BUILDER, Set.of(CompactMachines.MOD_ID));
 	}
 
@@ -99,25 +99,5 @@ public class DatapackRegisteredStuff extends DatapackBuiltinEntriesProvider {
 
 		var stem = new LevelStem(dimTypes.getOrThrow(CompactDimension.DIM_TYPE_KEY), new FlatLevelSource(flatSettings));
 		ctx.register(ResourceKey.create(Registries.LEVEL_STEM, CompactDimension.LEVEL_KEY.location()), stem);
-	}
-
-	private static void addRoomTemplates(BootstrapContext<RoomTemplate> ctx) {
-		roomTemplate(ctx, "tiny", new RoomTemplate(3, FastColor.ARGB32.color(255, 201, 91, 19)));
-		roomTemplate(ctx, "small", new RoomTemplate(5, FastColor.ARGB32.color(255, 212, 210, 210)));
-		roomTemplate(ctx, "normal", new RoomTemplate(7, FastColor.ARGB32.color(255, 251, 242, 54)));
-		roomTemplate(ctx, "large", new RoomTemplate(9, FastColor.ARGB32.color(255, 33, 27, 46)));
-		roomTemplate(ctx, "giant", new RoomTemplate(11, FastColor.ARGB32.color(255, 67, 214, 205)));
-		roomTemplate(ctx, "colossal", new RoomTemplate(13, FastColor.ARGB32.color(255, 66, 63, 66)));
-
-		roomTemplate(ctx, "soaryn", new RoomTemplate(45, DyeColor.PURPLE.getFireworkColor()));
-		roomTemplate(ctx, "farming", RoomTemplate.builder()
-			.withInternalSize(21, 21, 11)
-			.defaultMachineColor(MachineColor.fromARGB(CommonColors.GREEN))
-			.withFloor(Blocks.GRASS_BLOCK.defaultBlockState())
-			.build());
-	}
-
-	private static void roomTemplate(BootstrapContext<RoomTemplate> ctx, String name, RoomTemplate template) {
-		ctx.register(ResourceKey.create(RoomTemplate.REGISTRY_KEY, CompactMachines.modRL(name)), template);
 	}
 }

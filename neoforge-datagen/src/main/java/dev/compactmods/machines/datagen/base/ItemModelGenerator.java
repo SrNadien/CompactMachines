@@ -1,4 +1,4 @@
-package dev.compactmods.machines.datagen;
+package dev.compactmods.machines.datagen.base;
 
 import dev.compactmods.machines.api.CompactMachines;
 import dev.compactmods.machines.machine.Machines;

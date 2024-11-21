@@ -2,7 +2,7 @@ package dev.compactmods.machines.room;
 
 import dev.compactmods.machines.LoggingUtil;
 import dev.compactmods.machines.api.CompactMachines;
-import dev.compactmods.machines.api.Translations;
+import dev.compactmods.machines.i18n.Translations;
 import dev.compactmods.machines.api.dimension.CompactDimension;
 import dev.compactmods.machines.util.PlayerUtil;
 import net.minecraft.server.level.ServerPlayer;

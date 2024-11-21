@@ -2,7 +2,7 @@
 //
 //import com.mojang.authlib.GameProfile;
 //import dev.compactmods.machines.api.CompactMachinesApi;
-//import dev.compactmods.machines.api.machine.MachineTranslations;
+//import dev.compactmods.machines.i18n.MachineTranslations;
 //import dev.compactmods.machines.api.room.CompactMachines.roomApi();
 //import dev.compactmods.machines.machine.block.BoundCompactMachineBlockEntity;
 //import net.minecraft.ChatFormatting;

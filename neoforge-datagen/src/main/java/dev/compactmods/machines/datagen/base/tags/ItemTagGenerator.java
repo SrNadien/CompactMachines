@@ -1,4 +1,4 @@
-package dev.compactmods.machines.datagen.tags;
+package dev.compactmods.machines.datagen.base.tags;
 
 import dev.compactmods.machines.api.machine.MachineConstants;
 import dev.compactmods.machines.api.shrinking.PSDTags;
@@ -15,7 +15,7 @@ import net.minecraft.tags.TagKey;
 import java.util.concurrent.CompletableFuture;
 
 public class ItemTagGenerator extends ItemTagsProvider {
-    public ItemTagGenerator(PackOutput packOut, BlockTagGenerator blocks, CompletableFuture<HolderLookup.Provider> lookups) {
+    public ItemTagGenerator(PackOutput packOut, dev.compactmods.machines.datagen.base.tags.BlockTagGenerator blocks, CompletableFuture<HolderLookup.Provider> lookups) {
         super(packOut, lookups, blocks.contentsGetter());
     }
 

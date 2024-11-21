@@ -1,7 +1,7 @@
 package dev.compactmods.machines.machine.item;
 
 import dev.compactmods.machines.api.CompactMachines;
-import dev.compactmods.machines.api.machine.MachineTranslations;
+import dev.compactmods.machines.i18n.MachineTranslations;
 import dev.compactmods.machines.machine.Machines;
 import net.minecraft.Util;
 import net.minecraft.core.component.DataComponents;
