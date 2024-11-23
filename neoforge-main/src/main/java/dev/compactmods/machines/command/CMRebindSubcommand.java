@@ -1,4 +1,4 @@
-package dev.compactmods.machines.command.subcommand;
+package dev.compactmods.machines.command;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;

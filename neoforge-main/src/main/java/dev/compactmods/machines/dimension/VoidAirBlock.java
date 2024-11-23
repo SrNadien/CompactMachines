@@ -1,16 +1,17 @@
 package dev.compactmods.machines.dimension;
 
 import dev.compactmods.machines.api.dimension.CompactDimension;
-import dev.compactmods.machines.room.Rooms;
-import dev.compactmods.machines.server.ServerConfig;
+import dev.compactmods.machines.gamerule.CMGameRules;
 import dev.compactmods.machines.util.PlayerUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -46,39 +47,45 @@ public class VoidAirBlock extends AirBlock {
 
         if (pEntity instanceof ServerPlayer player) {
             // If players are allowed outside of machine bounds, early exit -- but damage them if configured
-            if (ServerConfig.isAllowedOutsideOfMachine()) {
-                tryDamagingAdventurousPlayer(pLevel, player);
-                return;
-            }
+            final var rules = pLevel.getGameRules();
 
-            tryDamagingAdventurousPlayer(pLevel, player);
+            if (rules.getBoolean(CMGameRules.DAMAGE_OOB_PLAYERS))
+                tryDamagingAdventurousPlayer(pLevel, player);
 
             // FIXME - Achievement
             // PlayerUtil.howDidYouGetThere(player);
-            PlayerUtil.teleportPlayerToRespawnOrOverworld(player.server, player);
+
+            boolean allowedOutOfBounds = switch (player.gameMode.getGameModeForPlayer()) {
+                case GameType.ADVENTURE, GameType.SURVIVAL ->
+                        rules.getBoolean(CMGameRules.ALLOW_SURVIVAL_OUT_OF_BOUNDS);
+                case GameType.CREATIVE -> rules.getBoolean(CMGameRules.ALLOW_CREATIVE_OUT_OF_BOUNDS);
+                case GameType.SPECTATOR -> rules.getBoolean(CMGameRules.ALLOW_SPECTATORS_OUT_OF_BOUNDS);
+            };
+
+            if (!allowedOutOfBounds)
+                PlayerUtil.teleportPlayerToRespawnOrOverworld(player.server, player);
         }
     }
 
     /**
      * Attempts to inflict the bad effects on players that are touching a void air block.
-     * Does nothing to players that are in creative mode.
+     * Does nothing to players that are in creative or spectator mode.
      *
      * @param pLevel
      * @param player
      */
     private static void tryDamagingAdventurousPlayer(Level pLevel, ServerPlayer player) {
-        if (player.isCreative()) return;
+        if (player.isCreative() || player.isSpectator()) return;
 
-        if (ServerConfig.damagePlayersOutOfBounds()) {
-            if(!player.hasEffect(MobEffects.CONFUSION)) {
-                player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 5 * 20));
-                player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5 * 20));
-                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 5 * 20));
-            }
+        if (!player.hasEffect(MobEffects.CONFUSION)) {
+            player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 5 * 20));
+            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5 * 20));
+            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 5 * 20));
+        }
 
-            if (player.getHealth() > 1) {
-                player.hurt(pLevel.damageSources().fellOutOfWorld(), player.getHealth() - 1);
-            }
+        // Damage the player down to half a heart
+        if (player.getHealth() > 1) {
+            player.hurt(pLevel.damageSources().fellOutOfWorld(), player.getHealth() - 1);
         }
     }
 }

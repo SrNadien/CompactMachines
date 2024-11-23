@@ -7,7 +7,6 @@ import dev.compactmods.machines.api.machine.MachineColor;
 import dev.compactmods.machines.api.room.RoomDimensions;
 import dev.compactmods.machines.api.room.RoomStructureInfo;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -81,8 +80,8 @@ public record RoomTemplate(RoomDimensions internalDimensions, MachineColor defau
                 .inflate(1);
     }
 
-    public static final String I18N_INTERNAL_ROOM_DIMS = CompactMachines.langPrefix("rooms.templates.room_dimensions");
-    public static final String I18N_STRUCTURE_GEN_TOOLTIP = CompactMachines.langPrefix("rooms.templates.structure_tooltip");
+    public static final String I18N_INTERNAL_ROOM_DIMS = CompactMachines.dotPrefix("rooms.templates.room_dimensions");
+    public static final String I18N_STRUCTURE_GEN_TOOLTIP = CompactMachines.dotPrefix("rooms.templates.structure_tooltip");
 
     @Override
     public void addToTooltip(Item.TooltipContext ctx, Consumer<Component> tooltips, TooltipFlag flags) {

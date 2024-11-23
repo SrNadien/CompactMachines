@@ -2,14 +2,7 @@ package dev.compactmods.machines.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.compactmods.machines.api.CompactMachines;
-import dev.compactmods.machines.command.subcommand.RoomUpgradesSubcommand;
-import dev.compactmods.machines.command.subcommand.CMEjectSubcommand;
-import dev.compactmods.machines.command.subcommand.CMGiveMachineSubcommand;
-import dev.compactmods.machines.command.subcommand.CMRebindSubcommand;
-import dev.compactmods.machines.command.subcommand.CMRoomsSubcommand;
-import dev.compactmods.machines.command.subcommand.CMTeleportSubcommand;
-import dev.compactmods.machines.command.subcommand.CMUnbindSubcommand;
-import dev.compactmods.machines.command.subcommand.SpawnSubcommand;
+import dev.compactmods.machines.command.rooms.CMRoomsSubcommand;
 import net.minecraft.commands.CommandSourceStack;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 

@@ -56,38 +56,38 @@ public class BoundCompactMachineBlock extends CompactMachineBlock implements Ent
         }
     }
 
-    @Override
-    public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
-        int baseSpeedForge = EventHooks.doPlayerHarvestCheck(player, state, level, pos) ? 30 : 100;
-        float normalHardness = player.getDigSpeed(state, pos) / baseSpeedForge;
-
-        if (level.getBlockEntity(pos) instanceof BoundCompactMachineBlockEntity bound) {
-            boolean hasPlayers = bound.hasPlayersInside();
-
-            // If there are players inside, check config for break handling
-            if (hasPlayers) {
-                EnumMachinePlayersBreakHandling hand = ServerConfig.MACHINE_PLAYER_BREAK_HANDLING.get();
-                switch (hand) {
-                    case UNBREAKABLE:
-                        return 0;
-
-                    case OWNER:
-                        Optional<UUID> ownerUUID = bound.getOwnerUUID();
-                        return ownerUUID
-                                .map(uuid -> player.getUUID() == uuid ? normalHardness : 0)
-                                .orElse(normalHardness);
-
-                    case ANYONE:
-                        return normalHardness;
-                }
-            }
-
-            // No players inside - let anyone break it
-            return normalHardness;
-        } else {
-            return normalHardness;
-        }
-    }
+//    @Override
+//    public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
+//        int baseSpeedForge = EventHooks.doPlayerHarvestCheck(player, state, level, pos) ? 30 : 100;
+//        final var normalHardness = player.getDigSpeed(state, pos) / baseSpeedForge;
+//
+//        if (level.getBlockEntity(pos) instanceof BoundCompactMachineBlockEntity bound) {
+//            boolean hasPlayers = bound.hasPlayersInside();
+//
+//            // If there are players inside, check config for break handling
+//            if (hasPlayers) {
+//                EnumMachinePlayersBreakHandling hand = ServerConfig.MACHINE_PLAYER_BREAK_HANDLING.get();
+//                switch (hand) {
+//                    case UNBREAKABLE:
+//                        return 0;
+//
+//                    case OWNER:
+//                        Optional<UUID> ownerUUID = bound.getOwnerUUID();
+//                        return ownerUUID
+//                                .map(uuid -> player.getUUID() == uuid ? normalHardness : 0)
+//                                .orElse(normalHardness);
+//
+//                    case ANYONE:
+//                        return normalHardness;
+//                }
+//            }
+//
+//            // No players inside - let anyone break it
+//            return normalHardness;
+//        } else {
+//            return normalHardness;
+//        }
+//    }
 
     @Nullable
     @Override
