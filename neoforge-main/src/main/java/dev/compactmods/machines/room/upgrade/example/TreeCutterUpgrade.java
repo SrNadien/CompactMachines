@@ -21,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -89,7 +90,16 @@ public class TreeCutterUpgrade implements RoomUpgrade {
                     final var state = level.getBlockState(pos);
                     return Pair.of(pos.immutable(), state);
                 })
-                .filter(pair -> pair.right().is(BlockTags.LOGS) || pair.right().is(BlockTags.LEAVES))
+                .filter(pair -> {
+                    BlockState state = pair.right();
+                    if(state.is(BlockTags.LOGS)) return true;
+                    if(state.is(BlockTags.LEAVES)) {
+                        if (state.hasProperty(LeavesBlock.PERSISTENT)) return !state.getValue(LeavesBlock.PERSISTENT);
+                        return true;
+                    }
+
+                    return false;
+                })
                 .limit(maxAllowed)
                 .collect(Collectors.toUnmodifiableSet());
 
