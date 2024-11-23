@@ -53,7 +53,6 @@ repositories {
 
 dependencies {
     compileOnly(compactmods.spatial)
-    jarJar(compactmods.spatial) { isTransitive = false }
 }
 
 
