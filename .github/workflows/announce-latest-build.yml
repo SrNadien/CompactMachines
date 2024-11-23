@@ -21,15 +21,15 @@ jobs:
           owner: compactmods
           repo: compactmachines
           group: dev.compactmods.compactmachines.compactmachines-neoforge
-          filter: "^compactmachines-neoforge-(?:[\\d\\.]+)-nightly.jar$"
-          outputFile: compactmachines-nightly.json
+          filter: "^compactmachines-neoforge-(?:[\\d\\.]+).jar$"
+          outputFile: compactmachines.json
 
       - name: Debug output
         run: |
           echo "Version: ${{ steps.download-info.outputs.version }}"
-          cat compactmachines-nightly.json
+          cat compactmachines.json
 
   announce:
     name: Discord Announcement
-    uses: ./.github/workflows/_announce-latest-nightly.yml
+    uses: _announce-latest-build.yml
     secrets: inherit

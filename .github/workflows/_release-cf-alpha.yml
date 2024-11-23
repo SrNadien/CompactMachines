@@ -1,8 +1,6 @@
-name: Release Latest to CurseForge as Beta
+name: Release Latest Build to CurseForge as Alpha
 
-on:
-  workflow_dispatch:
-
+on: [workflow_dispatch, workflow_call]
 jobs:
   get-package-info:
     name: Get Latest Package Info
@@ -66,4 +64,4 @@ jobs:
           game_endpoint: minecraft
           file_path: ${{ fromJson(steps.info.outputs.latestJson)[0].name}}
           game_versions: java:Java 21,NeoForge
-          release_type: beta
+          release_type: alpha
