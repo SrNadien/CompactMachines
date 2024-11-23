@@ -49,25 +49,15 @@ jobs:
     with:
       version: ${{ needs.vars.outputs.version }}
 
-#  tests:
-#    if: ${{ !inputs.skip_tests }}
-#    needs: [vars, datagen]
-#    uses: ./.github/workflows/_run-gametests.yml
-#    secrets: inherit
-#    with:
-#      version: ${{ needs.vars.outputs.version }}
-
-#  publish-after-tests:
-#    needs: [vars, tests]
-#    if: ${{ !inputs.skip_tests && needs.tests.result == 'success' }}
-#    uses: ./.github/workflows/_publish.yml
-#    secrets: inherit
-#    with:
-#      version: ${{ needs.vars.outputs.version }}
+  tests:
+    needs: [vars, datagen]
+    uses: ./.github/workflows/_run-gametests.yml
+    secrets: inherit
+    with:
+      version: ${{ needs.vars.outputs.version }}
 
   publish:
-    needs: [vars, datagen]
-#    if: ${{ inputs.skip_tests && needs.datagen.result == 'success' }}
+    needs: [vars, tests]
     uses: ./.github/workflows/_publish.yml
     secrets: inherit
     with:
