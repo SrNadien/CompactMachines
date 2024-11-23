@@ -187,10 +187,9 @@ dependencies {
     jarJar(compactmods.feather) { isTransitive = false }
     additionalRuntimeClasspath(compactmods.feather)
 
-    compileOnly(compactmods.spatial)
+    implementation(compactmods.spatial)
     testImplementation(compactmods.spatial)
     jarJar(compactmods.spatial) { isTransitive = false }
-    additionalRuntimeClasspath(compactmods.spatial)
 }
 
 tasks.withType<Test> {

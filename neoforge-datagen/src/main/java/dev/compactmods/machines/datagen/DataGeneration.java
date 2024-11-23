@@ -25,12 +25,6 @@ public class DataGeneration {
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
-        final var fileHelper = event.getExistingFileHelper();
-        final var generator = event.getGenerator();
-
-        final var packOut = generator.getPackOutput();
-        final var holderLookup = event.getLookupProvider();
-
         final var baseResults = BaseDatapack.generatePack(event);
         BasicRoomTemplatesDatapack.generatePack(event, baseResults.holderLookupProvider());
 
