@@ -69,6 +69,12 @@ neoForge {
         testedMod = mods.named(modId)
     }
 
+    parchment {
+        enabled = true
+        mappingsVersion = libs.versions.parchment
+        minecraftVersion = libs.versions.parchmentMC
+    }
+
     runs {
         // applies to all the run configs below
         configureEach {
@@ -166,9 +172,9 @@ repositories {
 dependencies {
     // Core Projects and Libraries
     this {
-        compileOnly(libraries.jnanoid)
-        testImplementation(libraries.jnanoid)
-        jarJar(libraries.jnanoid)
+        compileOnly(libs.jnanoid)
+        testImplementation(libs.jnanoid)
+        jarJar(libs.jnanoid)
 
         compileOnly(coreApi)
         testCompileOnly(coreApi)
@@ -180,7 +186,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    additionalRuntimeClasspath(libraries.jnanoid)
+    additionalRuntimeClasspath(libs.jnanoid)
 
     compileOnly(compactmods.feather)
     testImplementation(compactmods.feather)

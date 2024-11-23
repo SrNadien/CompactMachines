@@ -1,56 +1,7 @@
 dependencyResolutionManagement {
-    versionCatalogs.create("neoforged") {
-        val nf = "21.1.79"
-
-        version("neoforge", nf)
-        version("mdg", "2.0.42-beta")
-
-        version("neoforgeRange") {
-            require("[$nf,)")
-            prefer(nf)
-        }
-
-//        plugin("neogradle", "net.neoforged.gradle.userdev")
-//            .versionRef("neogradle")
-
-        plugin("moddev", "net.neoforged.moddev")
-            .versionRef("mdg")
-
-        library("neoforge", "net.neoforged", "neoforge")
-            .versionRef("neoforge")
-
-        library("testframework", "net.neoforged", "testframework")
-            .versionRef("neoforge")
-    }
-
-    versionCatalogs.create("mojang") {
-        version("minecraft", "1.21.1")
-        version("minecraftRange") {
-            this.require("[1.21, 1.21.2)")
-            this.prefer("1.21.1")
-        }
-    }
-
-    versionCatalogs.create("compactmods") {
-        version("feather", "0.1.8")
-        version("spatial", "0.2.1")
-
-        library("feather", "dev.compactmods", "feather")
-            .versionRef("feather")
-
-        library("spatial", "dev.compactmods", "spatial")
-            .versionRef("spatial")
-    }
-
-    versionCatalogs.create("libraries") {
-        library("jnanoid", "com.aventrix.jnanoid", "jnanoid")
-            .versionRef("jnanoid")
-
-        version("jnanoid", "[2.0.0, 3)")
-
-        version("parchment-mc", "1.21")
-        version("parchment", "2024.07.28")
-    }
+    addVersionCatalog(this, "neoforged")
+    addVersionCatalog(this, "mojang")
+    addVersionCatalog(this, "compactmods")
 
     versionCatalogs.create("mods") {
         this.library("jei-common", "mezz.jei", "jei-1.20.4-common-api").versionRef("jei")
@@ -94,3 +45,8 @@ include(":core-api")
 include(":neoforge-main")
 include(":neoforge-datagen")
 
+fun addVersionCatalog(dependencyResolutionManagement: DependencyResolutionManagement, name: String) {
+    dependencyResolutionManagement.versionCatalogs.create(name) {
+        from(files("./gradle/$name.versions.toml"))
+    }
+}
