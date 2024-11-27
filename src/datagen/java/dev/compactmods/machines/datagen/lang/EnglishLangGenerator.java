@@ -1,9 +1,6 @@
 package dev.compactmods.machines.datagen.lang;
 
-import dev.compactmods.machines.api.core.CMCommands;
-import dev.compactmods.machines.api.core.Constants;
-import dev.compactmods.machines.api.core.Messages;
-import dev.compactmods.machines.api.core.Tooltips;
+import dev.compactmods.machines.api.core.*;
 import dev.compactmods.machines.api.room.RoomSize;
 import dev.compactmods.machines.api.room.upgrade.RoomUpgrade;
 import dev.compactmods.machines.client.CreativeTabs;
@@ -108,6 +105,13 @@ public class EnglishLangGenerator extends BaseLangGenerator {
         addCommand(CMCommands.MACHINE_GIVEN, "Created a new machine item and gave it to %s.");
 
         addMessage(Messages.UNKNOWN_ROOM_CHUNK, "Unknown room at %s; please verify it exists.");
+
+        // Jade Plugin Specific Translations
+        add(JadeInfo.MACHINE, "Compact Machine Block Information");
+        add(JadeInfo.MACHINE_TUNNELS, "Compact Machine Tunnel Presence");
+        add(JadeInfo.TUNNEL, "Tunnel Information");
+        add(JadeInfo.TUNNEL_CONNECTION, "Tunnel Connection");
+
 
         add("biome." + Constants.MOD_ID + ".machine", "Compact Machine");
 
