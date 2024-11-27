@@ -1,14 +1,6 @@
 name: Release Latest to Curseforge as Alpha
 
-on:
-  workflow_dispatch:
-    inputs:
-      diagnostic_mode:
-        description: Diagnostic Mode
-        type: boolean
-        default: false
-        required: true
-
+on: [workflow_dispatch, workflow_call]
 jobs:
   get-package-info:
     name: Get Latest Package Info

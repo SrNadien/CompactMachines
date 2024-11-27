@@ -2,7 +2,6 @@ name: Announce Latest Nightly to Discord
 
 on:
   workflow_call:
-
   workflow_dispatch:
     inputs:
       diagnostic_mode:
@@ -12,49 +11,30 @@ on:
         required: true
 
 jobs:
-  vars:
-    name: Get Variables
-    runs-on: ubuntu-22.04
-    outputs:
-      mcVersion: ${{steps.minecraft.outputs.version}}
-      forgeVersion: ${{steps.forge.outputs.version}}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Init Gradle
-        run: ./gradlew fgInitCM
-
-      - name: MC Version
-        id: minecraft
-        run: ./gradlew mcVersion -q >> "$GITHUB_OUTPUT"
-        env:
-          VERSION: ${{ steps.version.outputs.version }}
-
-      - name: Forge Version
-        id: forge
-        run: ./gradlew forgeVersion -q >> "$GITHUB_OUTPUT"
-        env:
-          VERSION: ${{ steps.version.outputs.version }}
-
   get-package-info:
     name: Get Latest Package Info
     runs-on: ubuntu-22.04
     outputs:
       version: ${{ steps.download-info.outputs.version }}
+      jarFile: ${{ fromJson(steps.info.outputs.latestJson)[0].name }}
+      mcVersion: ${{steps.minecraft.outputs.prop}}
+      neoVersion: ${{steps.neoforge.outputs.prop}}
+
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Groovy
+        uses: wtfjoke/setup-groovy@v2
+        with:
+          groovy-version: '4.x'
+
       - name: Download Package Info
         id: download-info
         uses: compactmods/dl-package-info@1.0.3
@@ -64,23 +44,31 @@ jobs:
           owner: compactmods
           repo: compactmachines
           group: dev.compactmods.compactmachines.compactmachines-forge
-          filter: "^compactmachines-forge-(?:[\\d\\.]+)-nightly.jar$"
-          outputFile: compactmachines-nightly.json
+          filter: "^compactmachines-forge-(?:[\\d\\.]+).jar$"
+          outputFile: compactmachines.json
 
       - name: Debug output
         run: |
           echo "Version: ${{ steps.download-info.outputs.version }}"
-          cat compactmachines-nightly.json
+          cat compactmachines.json
 
       - name: Read info into variable [latest]
         id: info
-        run: echo "latestJson=$(cat compactmachines-nightly.json)" >> $GITHUB_OUTPUT
+        run: echo "latestJson=$(cat compactmachines.json)" >> $GITHUB_OUTPUT
 
       - name: Download JAR and prepare artifacts
         run: |
           mkdir release
-          curl -L "${{ fromJson(steps.info.outputs.latestJson)[0].url }}" -o "release/${{ fromJson(steps.info.outputs.latestJson)[0].name}}"
-          mv compactmachines-nightly.json release/compactmachines-nightly.json
+          curl -L "${{ fromJson(steps.info.outputs.latestJson)[0].url }}" -o "release/${{ fromJson(steps.info.outputs.latestJson)[0].name }}"
+          mv compactmachines.json release/compactmachines.json     
+
+      - name: MC Version
+        id: minecraft
+        run:  groovy read-manifest.groovy release/${{ fromJson(steps.info.outputs.latestJson)[0].name }} "Minecraft-Version" >> "$GITHUB_OUTPUT"
+
+      - name: NeoForge Version
+        id: neoforge
+        run:  groovy read-manifest.groovy release/${{ fromJson(steps.info.outputs.latestJson)[0].name }} "NeoForge-Version" >> "$GITHUB_OUTPUT"
 
       - name: Add Artifact
         uses: actions/upload-artifact@v4
@@ -90,7 +78,7 @@ jobs:
 
   announce:
     name: Discord Announcement
-    needs: [ vars, get-package-info ]
+    needs: [ get-package-info ]
     runs-on: ubuntu-22.04
     steps:
       - name: Grab JAR and Info
@@ -99,18 +87,14 @@ jobs:
           name: release
           path: .
 
-      - name: Read info into variable [latest]
-        id: info
-        run: echo "latestJson=$(cat compactmachines-nightly.json)" >> $GITHUB_OUTPUT
-
       - name: Announce Release
         uses: compactmods/discord-releaser@0.1.5
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
         with:
-          filename: ${{ fromJson(steps.info.outputs.latestJson)[0].name}}
+          filename: ${{ needs.get-package-info.outputs.jarFile }}
           channel: ${{ secrets.NIGHTLY_CHANNEL_ID }}
           modName: Compact Machines
           modVersion: ${{ needs.get-package-info.outputs.version }}
           thumbnail: https://media.forgecdn.net/avatars/10/602/635460270800375500.png
-          mcVersion: ${{ needs.vars.outputs.mcVersion }}
+          mcVersion: ${{ needs.get-package-info.outputs.mcVersion }}

@@ -22,24 +22,6 @@ archivesBaseName = mod_id
 group = "dev.compactmods.compactmachines"
 version = envVersion
 
-tasks.register("fgInitCM") {
-    doLast {
-        println("ForgeGradle+CM initialized")
-    }
-}
-
-tasks.register("mcVersion") {
-    doFirst {
-        println("version=$minecraft_version")
-    }
-}
-
-tasks.register("forgeVersion") {
-    doFirst {
-        println("version=$forge_version")
-    }
-}
-
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 sourceSets {
     api {
@@ -343,7 +325,9 @@ jar {
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : archiveVersion,
                 "Implementation-Vendor"   : "",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "Forge-Version":            forge_version,
+                "Minecraft-Version":        minecraft_version
         ])
     }
 }
