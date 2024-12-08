@@ -25,13 +25,7 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 sourceSets {
-//    datagen {
-//        compileClasspath += sourceSets.api.output
-//        runtimeClasspath += sourceSets.api.output
-//        compileClasspath += sourceSets.main.output
-//        runtimeClasspath += sourceSets.main.output
-//    }
-
+    create("datagen")
     main {
         resources.srcDir("src/generated/resources")
     }
@@ -39,6 +33,8 @@ sourceSets {
 
 neoForge {
     version = "1.20.1-47.3.0"
+
+    addModdingDependenciesTo(sourceSets.test.get())
 
     parchment {
         enabled = true
@@ -98,6 +94,20 @@ neoForge {
             environment.put("CM_TEST_RESOURCES", file("src/test/resources").path)
 
             sourceSet = sourceSets.test
+        }
+
+        create("data") {
+            this.data()
+
+            this.gameDirectory.set(file("runs/data"))
+
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            systemProperty("forge.enabledGameTestNamespaces", modId)
+
+            programArguments.addAll("--mod", modId)
+            programArguments.addAll("--all")
+            programArguments.addAll("--output", file("src/generated/resources").absolutePath)
+            programArguments.addAll("--existing", file("src/main/resources").absolutePath)
         }
 
         create("gameTestServer") {

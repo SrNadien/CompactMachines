@@ -38,3 +38,7 @@ forge-main/generated/
 raw-assets/
 
 .vscode/
+
+forge-main/runs/
+
+forge-main/src/generated/

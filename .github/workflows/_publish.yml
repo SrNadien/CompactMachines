@@ -41,7 +41,7 @@ jobs:
           path: build
 
       - name: Publish
-        run: ./gradlew :publish
+        run: ./gradlew :publishAllPublicationsToGitHubPackagesRepository
         env:
           VERSION: ${{ inputs.version }}
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
