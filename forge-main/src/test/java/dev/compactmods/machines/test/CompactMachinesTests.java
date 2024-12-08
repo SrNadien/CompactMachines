@@ -1,10 +1,7 @@
-package dev.compactmods.machines.test.core;
+package dev.compactmods.machines.test;
 
-import dev.compactmods.machines.CompactMachines;
 import dev.compactmods.machines.api.core.Constants;
 import dev.compactmods.machines.client.CreativeTabs;
-import dev.compactmods.machines.core.Registries;
-import dev.compactmods.machines.test.TestBatches;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraftforge.gametest.GameTestHolder;

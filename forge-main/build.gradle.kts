@@ -49,6 +49,7 @@ neoForge {
     mods.create(modId) {
         modSourceSets.add(forgeApi.sourceSets.main)
         modSourceSets.add(sourceSets.main)
+        modSourceSets.add(sourceSets.test)
     }
 
     runs {
@@ -134,6 +135,8 @@ repositories {
     }
 }
 
+val USE_JARINJAR_FOR_API = false
+
 dependencies {
     implementation("org.jetbrains:annotations:24.0.0")
 
@@ -144,7 +147,10 @@ dependencies {
 
     compileOnly(forgeApi)
     testCompileOnly(forgeApi)
-    jarJar(forgeApi)
+
+    if(USE_JARINJAR_FOR_API) {
+        jarJar(forgeApi)
+    }
 
     // JEI
     modCompileOnly(libs.jei.commonApi)
@@ -154,6 +160,13 @@ dependencies {
     // Visual Data Mod
     modCompileOnly("curse.maven:theoneprobe-245211:4629624")
     modCompileOnly("curse.maven:jade-324717:5776962")
+}
+
+if(!USE_JARINJAR_FOR_API) {
+    tasks.named<Jar>("jar") {
+        from(forgeApi.sourceSets["main"].output)
+        finalizedBy("reobfJar")
+    }
 }
 
 tasks.withType<Jar> {
