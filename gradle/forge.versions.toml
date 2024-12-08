@@ -1,0 +1,4 @@
+[versions]
+forge = "47.3.0"
+forgeRange = { require = "[47.3.0,)", prefer = "47.3.0" }
+

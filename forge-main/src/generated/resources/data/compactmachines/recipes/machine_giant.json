@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "compactmachines:config_enable_vanilla_recipes"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "C": {
+            "tag": "forge:storage_blocks/diamond"
+          },
+          "W": {
+            "item": "compactmachines:wall"
+          }
+        },
+        "pattern": [
+          "WWW",
+          "WCW",
+          "WWW"
+        ],
+        "result": {
+          "item": "compactmachines:machine_giant"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

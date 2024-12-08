@@ -1,0 +1,23 @@
+[versions]
+jnanoid = "[2.0.0, 3)"
+parchmentMC = "1.21"
+parchment = "2024.07.28"
+
+jei = "15.18.0.79"
+
+[libraries.jnanoid]
+module = "com.aventrix.jnanoid:jnanoid"
+version.ref = "jnanoid"
+
+# Just Enough Items
+[libraries.jei_commonApi]
+module = "mezz.jei:jei-1.20.1-common-api"
+version.ref = "jei"
+
+[libraries.jei_forgeApi]
+module = "mezz.jei:jei-1.20.1-forge-api"
+version.ref = "jei"
+
+[libraries.jei_forge]
+module = "mezz.jei:jei-1.20.1-forge"
+version.ref = "jei"

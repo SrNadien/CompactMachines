@@ -1,0 +1,8 @@
+// 1.20.1	2024-10-27T19:28:02.575619011	Loot Tables
+9944f8a402c97ac3b0b3a806d57725be5ad6bb0d data/compactmachines/loot_tables/blocks/machine_giant.json
+6e67563e02bed2e8d55d238801fd655ee7bdcc5c data/compactmachines/loot_tables/blocks/machine_large.json
+1acc7def0c781109d04449ff24229a9567038a05 data/compactmachines/loot_tables/blocks/machine_maximum.json
+e9da0686f699af2ee512578de0ca2eaaee54b91a data/compactmachines/loot_tables/blocks/machine_normal.json
+30c54db06a542112c657be0fdc0f67afc8f92862 data/compactmachines/loot_tables/blocks/machine_small.json
+1b57c8fcd80fd90e4781dbe16a826a93f13b7598 data/compactmachines/loot_tables/blocks/machine_tiny.json
+9f0054dfb7212acaccd3f0e430af26e344ea855a data/compactmachines/loot_tables/blocks/wall.json
