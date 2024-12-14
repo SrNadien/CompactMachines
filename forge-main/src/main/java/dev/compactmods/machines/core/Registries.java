@@ -15,8 +15,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.stream.Stream;
 
 import static dev.compactmods.machines.api.core.Constants.MOD_ID;
 
@@ -55,7 +58,17 @@ public class Registries {
     // LootFunctions
     public static final DeferredRegister<LootItemFunctionType> LOOT_FUNCS = DeferredRegister.create(BuiltInRegistries.LOOT_FUNCTION_TYPE.key(), MOD_ID);
 
-    public static void setup() {
-
+    public static void setup(IEventBus modBus) {
+        TABS.register(modBus);
+        BLOCKS.register(modBus);
+        ITEMS.register(modBus);
+        BLOCK_ENTITIES.register(modBus);
+        TUNNEL_DEFINITIONS.register(modBus);
+        CONTAINERS.register(modBus);
+        UPGRADES.register(modBus);
+        NODE_TYPES.register(modBus);
+        EDGE_TYPES.register(modBus);
+        COMMAND_ARGUMENT_TYPES.register(modBus);
+        LOOT_FUNCS.register(modBus);
     }
 }

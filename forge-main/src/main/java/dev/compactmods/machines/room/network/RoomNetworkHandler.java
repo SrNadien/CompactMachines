@@ -11,7 +11,7 @@ import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 
 public class RoomNetworkHandler {
 
-    private static final ArtifactVersion ROOM_TRACK_VERSION = new DefaultArtifactVersion("1.0.0");
+    private static final ArtifactVersion ROOM_TRACK_VERSION = new DefaultArtifactVersion("2.0.0");
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(Constants.MOD_ID, "room_tracking"),
@@ -21,16 +21,10 @@ public class RoomNetworkHandler {
     );
 
     public static void setupMessages() {
-        CHANNEL.messageBuilder(PlayerStartedRoomTrackingPacket.class, 1, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(PlayerStartedRoomTrackingPacket::encode)
-                .decoder(PlayerStartedRoomTrackingPacket::new)
-                .consumerMainThread(PlayerStartedRoomTrackingPacket::handle)
-                .add();
-
-        CHANNEL.messageBuilder(InitialRoomBlockDataPacket.class, 2, NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(InitialRoomBlockDataPacket::toNetwork)
-                .decoder(InitialRoomBlockDataPacket::fromNetwork)
-                .consumerMainThread(InitialRoomBlockDataPacket::handle)
+        CHANNEL.messageBuilder(OpenMachinePreviewScreenPacket.class, 1, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenMachinePreviewScreenPacket::toNetwork)
+                .decoder(OpenMachinePreviewScreenPacket::fromNetwork)
+                .consumerMainThread(OpenMachinePreviewScreenPacket::handle)
                 .add();
     }
 }

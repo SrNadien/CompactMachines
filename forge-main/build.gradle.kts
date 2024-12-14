@@ -25,7 +25,6 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 sourceSets {
-    create("datagen")
     main {
         resources.srcDir("src/generated/resources")
     }
@@ -96,19 +95,7 @@ neoForge {
             sourceSet = sourceSets.test
         }
 
-        create("data") {
-            this.data()
 
-            this.gameDirectory.set(file("runs/data"))
-
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty("forge.enabledGameTestNamespaces", modId)
-
-            programArguments.addAll("--mod", modId)
-            programArguments.addAll("--all")
-            programArguments.addAll("--output", file("src/generated/resources").absolutePath)
-            programArguments.addAll("--existing", file("src/main/resources").absolutePath)
-        }
 
         create("gameTestServer") {
             type = "gameTestServer"
@@ -143,6 +130,14 @@ repositories {
     maven("https://maven.tterrag.com/") {
         name = "tterrag maven"
     }
+
+    maven("https://maven.pkg.github.com/compactmods/compactmachines") {
+        name = "Github PKG - CompactMods"
+        credentials {
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 val USE_JARINJAR_FOR_API = false
@@ -161,6 +156,11 @@ dependencies {
     if(USE_JARINJAR_FOR_API) {
         jarJar(forgeApi)
     }
+
+    // Gander
+    compileOnly(compactmods.bundles.gander)
+    additionalRuntimeClasspath(compactmods.bundles.gander)
+    jarJar(compactmods.bundles.gander)
 
     // JEI
     modCompileOnly(libs.jei.commonApi)

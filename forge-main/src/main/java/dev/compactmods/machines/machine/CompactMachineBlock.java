@@ -16,9 +16,9 @@ import dev.compactmods.machines.room.RoomCapabilities;
 import dev.compactmods.machines.room.Rooms;
 import dev.compactmods.machines.room.exceptions.NonexistentRoomException;
 import dev.compactmods.machines.room.history.PlayerRoomHistoryItem;
-import dev.compactmods.machines.room.menu.MachineRoomMenu;
+import dev.compactmods.machines.room.network.OpenMachinePreviewScreenPacket;
+import dev.compactmods.machines.room.network.RoomNetworkHandler;
 import dev.compactmods.machines.shrinking.Shrinking;
-import dev.compactmods.machines.tunnel.Tunnels;
 import dev.compactmods.machines.tunnel.graph.TunnelConnectionGraph;
 import dev.compactmods.machines.upgrade.MachineRoomUpgrades;
 import dev.compactmods.machines.upgrade.RoomUpgradeItem;
@@ -27,7 +27,6 @@ import dev.compactmods.machines.util.PlayerUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -51,6 +50,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -197,21 +197,14 @@ public class CompactMachineBlock extends Block implements EntityBlock {
         if (mainItem.isEmpty() && level.getBlockEntity(pos) instanceof CompactMachineBlockEntity machine) {
             if (state.getBlock() instanceof CompactMachineBlock cmBlock) {
                 machine.getConnectedRoom().ifPresent(room -> {
-                    var size = cmBlock.getSize();
                     try {
-                        final var roomName = Rooms.getRoomName(server, room);
-                        NetworkHooks.openScreen((ServerPlayer) player, MachineRoomMenu.makeProvider(server, room, machine.getLevelPosition()), (buf) -> {
-                            buf.writeBlockPos(pos);
-                            buf.writeJsonWithCodec(LevelBlockPosition.CODEC, machine.getLevelPosition());
-                            buf.writeChunkPos(room);
-                            roomName.ifPresentOrElse(name -> {
-                                buf.writeBoolean(true);
-                                buf.writeUtf(name);
-                            }, () -> {
-                                buf.writeBoolean(false);
-                            });
-                        });
-                    } catch (NonexistentRoomException e) {
+                        final var roomBlocks = Rooms.getInternalBlocks(server, room);
+
+                        RoomNetworkHandler.CHANNEL.send(
+                                PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                                new OpenMachinePreviewScreenPacket(room, roomBlocks)
+                        );
+                    } catch (NonexistentRoomException | MissingDimensionException e) {
                         e.printStackTrace();
                     }
                 });

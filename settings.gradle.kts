@@ -3,6 +3,7 @@ rootProject.name = "Compact Machines"
 dependencyResolutionManagement {
     addVersionCatalog(this, "mojang")
     addVersionCatalog(this, "forge")
+    addVersionCatalog(this, "compactmods")
     versionCatalogs {
         create("neoforged") {
             plugin("mdg-legacy", "net.neoforged.moddev.legacyforge")
@@ -47,3 +48,4 @@ fun addVersionCatalog(dependencyResolutionManagement: DependencyResolutionManage
         from(files("./gradle/$name.versions.toml"))
     }
 }
+include("forge-datagen")

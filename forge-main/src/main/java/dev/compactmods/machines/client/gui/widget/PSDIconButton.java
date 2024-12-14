@@ -7,18 +7,23 @@ import dev.compactmods.machines.room.network.PlayerRequestedTeleportPacket;
 import dev.compactmods.machines.shrinking.Shrinking;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import org.jetbrains.annotations.NotNull;
 
 public class PSDIconButton extends ExtendedButton {
-    private final MachineRoomScreen parent;
 
-    public PSDIconButton(MachineRoomScreen parent, int xPos, int yPos) {
+    private final GlobalPos machine;
+    private final ChunkPos targetRoom;
+
+    public PSDIconButton(GlobalPos machine, ChunkPos targetRoom, int xPos, int yPos) {
         super(xPos, yPos, 20, 22, Component.empty(), PSDIconButton::onClicked);
+        this.machine = machine;
+        this.targetRoom = targetRoom;
         this.active = false;
-        this.parent = parent;
     }
 
     @Override
@@ -30,11 +35,8 @@ public class PSDIconButton extends ExtendedButton {
     }
 
     private static void onClicked(Button button) {
-        if (button instanceof PSDIconButton psd && button.active) {
-            var menu = psd.parent.getMenu();
-            var mach = psd.parent.getMachine();
-            var room = menu.getRoom();
-            CompactMachinesNet.CHANNEL.sendToServer(new PlayerRequestedTeleportPacket(mach, room));
+        if (button.active && button instanceof PSDIconButton psd) {
+            CompactMachinesNet.CHANNEL.sendToServer(new PlayerRequestedTeleportPacket(psd.machine, psd.targetRoom));
         }
     }
 

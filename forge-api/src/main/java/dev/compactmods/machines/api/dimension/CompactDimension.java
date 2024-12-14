@@ -25,4 +25,12 @@ public abstract class CompactDimension {
     public static ServerLevel forServer(MinecraftServer server) {
         return server.getLevel(LEVEL_KEY);
     }
+
+    public static boolean isLevelCompact(Level level) {
+        return isLevelCompact(level.dimension());
+    }
+
+    public static boolean isLevelCompact(ResourceKey<Level> level) {
+        return level.equals(LEVEL_KEY);
+    }
 }
