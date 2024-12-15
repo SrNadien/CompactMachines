@@ -24,16 +24,27 @@ base {
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-sourceSets {
-    main {
-        resources.srcDir("src/generated/resources")
-    }
+sourceSets.main {
+    resources.srcDir("src/generated/resources")
 }
+
+val ssDatagen = sourceSets.create("datagen") {
+    java.srcDir("../forge-datagen/src/main/java")
+    resources.srcDir("src/main/resources")
+
+    compileClasspath += forgeApi.sourceSets.main.get().output
+    compileClasspath += sourceSets.main.get().output
+
+    runtimeClasspath += forgeApi.sourceSets.main.get().output
+    runtimeClasspath += sourceSets.main.get().output
+}
+
 
 neoForge {
     version = "1.20.1-47.3.0"
 
     addModdingDependenciesTo(sourceSets.test.get())
+    addModdingDependenciesTo(ssDatagen)
 
     parchment {
         enabled = true
@@ -44,6 +55,7 @@ neoForge {
     mods.create(modId) {
         modSourceSets.add(forgeApi.sourceSets.main)
         modSourceSets.add(sourceSets.main)
+        modSourceSets.add(ssDatagen)
         modSourceSets.add(sourceSets.test)
     }
 
@@ -54,9 +66,9 @@ neoForge {
             sourceSet = sourceSets.main
 
             // JetBrains Runtime Hotswap
-//            if (!System.getenv().containsKey("CI")) {
-//              jvmArgument("-XX:+AllowEnhancedClassRedefinition")
-//            }
+            if (!System.getenv().containsKey("CI")) {
+              jvmArgument("-XX:+AllowEnhancedClassRedefinition")
+            }
         }
 
         create("client") {
@@ -95,7 +107,17 @@ neoForge {
             sourceSet = sourceSets.test
         }
 
+        create("data") {
+            this.data()
 
+            this.gameDirectory.set(file("runs/data"))
+            this.sourceSet = ssDatagen
+
+            programArguments.addAll("--mod", modId)
+            programArguments.addAll("--all")
+            programArguments.addAll("--output", file("src/generated/resources").absolutePath)
+            programArguments.addAll("--existing", file("src/main/resources").absolutePath)
+        }
 
         create("gameTestServer") {
             type = "gameTestServer"
@@ -153,7 +175,7 @@ dependencies {
     compileOnly(forgeApi)
     testCompileOnly(forgeApi)
 
-    if(USE_JARINJAR_FOR_API) {
+    if (USE_JARINJAR_FOR_API) {
         jarJar(forgeApi)
     }
 
@@ -172,7 +194,7 @@ dependencies {
     modCompileOnly("curse.maven:jade-324717:5776962")
 }
 
-if(!USE_JARINJAR_FOR_API) {
+if (!USE_JARINJAR_FOR_API) {
     tasks.named<Jar>("jar") {
         from(forgeApi.sourceSets["main"].output)
         finalizedBy("reobfJar")

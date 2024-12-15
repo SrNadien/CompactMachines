@@ -1,5 +1,6 @@
 package dev.compactmods.machines.room.network;
 
+import dev.compactmods.machines.CompactMachines;
 import dev.compactmods.machines.room.network.client.ClientRoomNetworkHandler;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -27,8 +28,12 @@ public record OpenMachinePreviewScreenPacket(ChunkPos roomChunk, StructureTempla
         return new OpenMachinePreviewScreenPacket(chunkPos, blocks);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> ClientRoomNetworkHandler.openRoomPreviewScreen(this));
-        context.get().setPacketHandled(true);
+    public static boolean handle(OpenMachinePreviewScreenPacket pkt, Supplier<NetworkEvent.Context> context) {
+        //context.get().enqueueWork(() -> {
+        CompactMachines.LOGGER.debug("Opening machine preview screen: {}", pkt.roomChunk);
+        ClientRoomNetworkHandler.openRoomPreviewScreen(pkt);
+        // });
+
+        return true;
     }
 }

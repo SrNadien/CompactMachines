@@ -48,4 +48,3 @@ fun addVersionCatalog(dependencyResolutionManagement: DependencyResolutionManage
         from(files("./gradle/$name.versions.toml"))
     }
 }
-include("forge-datagen")

@@ -21,7 +21,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -32,7 +31,7 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     @Override
-    protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, Walls.ITEM_BREAKABLE_WALL.get(), 8)
                 .pattern("DDD")
                 .pattern("D D")

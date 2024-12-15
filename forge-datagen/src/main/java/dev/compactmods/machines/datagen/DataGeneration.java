@@ -11,6 +11,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,8 +20,12 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGeneration {
 
+    public static final Logger LOGGER = LogManager.getLogger();
+
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
+        LOGGER.debug("Starting CM datagen...");
+
         final var helper = event.getExistingFileHelper();
         final var generator = event.getGenerator();
         final var packOut = generator.getPackOutput();
@@ -45,5 +51,7 @@ public class DataGeneration {
 
         generator.addProvider(event.includeClient(), new EnglishLangGenerator(generator));
         generator.addProvider(event.includeClient(), new RussianLangGenerator(generator));
+
+        LOGGER.debug("Finished CM datagen");
     }
 }
