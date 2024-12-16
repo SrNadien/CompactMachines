@@ -36,11 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: generated-data
-          path: src/generated/resources
-
-      - name: Store Compiled
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: build
+          path: forge-main/src/generated/resources

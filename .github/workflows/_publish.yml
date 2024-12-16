@@ -32,16 +32,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: generated-data
-          path: src/generated/resources
-
-      - name: Pull Compilation Data (Main)
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: build
+          path: forge-main/src/generated/resources
 
       - name: Publish
-        run: ./gradlew :publishAllPublicationsToGitHubPackagesRepository
+        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
         env:
           VERSION: ${{ inputs.version }}
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}

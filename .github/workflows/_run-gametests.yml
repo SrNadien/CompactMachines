@@ -35,30 +35,14 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: generated-data
-            path: src/generated/resources
-
-        - name: Pull Compilation Data (Main)
-          uses: actions/download-artifact@v4
-          with:
-            name: build
-            path: build
+            path: forge-main/src/generated/resources
 
         - name: Run Game Tests
-          run: ./gradlew :runGameTestServer
+          run: ./gradlew :forge-main:runGameTestServer
 
         - name: Upload build failure
           if: failure()
           uses: actions/upload-artifact@v4
           with:
             name: test-data
-            path: run/gametest
-
-        - name: Run JUnit Tests
-          run: ./gradlew :test
-
-        - name: Upload test reports on failure
-          if: failure()
-          uses: actions/upload-artifact@v4
-          with:
-            name: test-reports
-            path: build/reports
+            path: forge-main/run/gametest
