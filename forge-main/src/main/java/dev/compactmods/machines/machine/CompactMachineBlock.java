@@ -27,6 +27,7 @@ import dev.compactmods.machines.util.PlayerUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -201,7 +202,7 @@ public class CompactMachineBlock extends Block implements EntityBlock {
 
                         RoomNetworkHandler.CHANNEL.send(
                                 PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                                new OpenMachinePreviewScreenPacket(room, roomBlocks)
+                                new OpenMachinePreviewScreenPacket(GlobalPos.of(level.dimension(), pos), room, roomBlocks)
                         );
                     } catch (NonexistentRoomException | MissingDimensionException e) {
                         e.printStackTrace();

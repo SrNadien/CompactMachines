@@ -16,7 +16,7 @@ import org.joml.Vector3f;
 public class ClientRoomNetworkHandler {
     public static void openRoomPreviewScreen(OpenMachinePreviewScreenPacket pkt) {
         final var mc = Minecraft.getInstance();
-        mc.setScreen(new MachineRoomScreen(Component.empty(), GlobalPos.of(mc.level.dimension(), BlockPos.ZERO), pkt.roomChunk()));
+        mc.setScreen(new MachineRoomScreen(Component.empty(), pkt.machinePos(), pkt.roomChunk()));
         if(mc.screen instanceof MachineRoomScreen mrs) {
             var virtualLevel = new VirtualLevel(Minecraft.getInstance().level.registryAccess());
             var bounds = pkt.internalBlocks().getBoundingBox(new StructurePlaceSettings(), BlockPos.ZERO);

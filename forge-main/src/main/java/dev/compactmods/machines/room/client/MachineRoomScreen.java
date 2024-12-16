@@ -12,6 +12,7 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.phys.AABB;
 
 public class MachineRoomScreen extends Screen {
 
@@ -52,7 +53,14 @@ public class MachineRoomScreen extends Screen {
     private void updateSceneRenderers() {
         if (this.scene != null) {
             renderer.setData(scene);
+            renderer.camera().zoom(calculateZoomForRoom(AABB.of(scene.blockBoundaries())));
         }
+    }
+
+    private static float calculateZoomForRoom(AABB internalSize) {
+        double maxSize = Math.max(internalSize.getXsize(), internalSize.getZsize());
+
+        return (float) (-1.0f * maxSize) - 3;
     }
 
     private boolean hasPsdItem() {
@@ -63,10 +71,9 @@ public class MachineRoomScreen extends Screen {
     public void tick() {
         super.tick();
 
-        if (this.scene != null) {
-            var level = ((VirtualLevel) scene.originalLevel().get());
-            level.tick(minecraft.getPartialTick());
-            level.animateTick();
+        if (this.scene != null && scene.originalLevel().get() instanceof VirtualLevel vl) {
+            vl.tick(minecraft.getPartialTick());
+            vl.animateTick();
         }
 
         if(psdButton != null)
@@ -84,19 +91,8 @@ public class MachineRoomScreen extends Screen {
     }
 
     @Override
-    public boolean mouseScrolled(double p_94686_, double p_94687_, double p_94688_) {
-        this.renderer.zoom(p_94688_);
-        return super.mouseScrolled(p_94686_, p_94687_, p_94688_);
-    }
-
-    @Override
     public boolean keyPressed(int code, int scanCode, int modifiers) {
         final float rotateSpeed = 1 / 12f;
-
-//        if (code == InputConstants.KEY_A) {
-//            this.autoRotate = !autoRotate;
-//            return true;
-//        }
 
         if (code == InputConstants.KEY_R) {
             renderer.camera().resetLook();
