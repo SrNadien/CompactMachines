@@ -180,8 +180,9 @@ dependencies {
     }
 
     // Gander
-    compileOnly(compactmods.bundles.gander)
-    additionalRuntimeClasspath(compactmods.bundles.gander)
+    modImplementation(compactmods.bundles.gander)
+    accessTransformers(compactmods.ganderRendering)
+//    additionalRuntimeClasspath(compactmods.bundles.gander)
     jarJar(compactmods.bundles.gander)
 
     // JEI

@@ -1,15 +1,15 @@
 package dev.compactmods.machines.room.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import dev.compactmods.gander.level.VirtualLevel;
 import dev.compactmods.gander.render.baked.BakedLevel;
 import dev.compactmods.gander.ui.widget.SpatialRenderer;
 import dev.compactmods.machines.client.gui.widget.PSDIconButton;
-import dev.compactmods.machines.room.network.RoomNetworkHandler;
 import dev.compactmods.machines.shrinking.Shrinking;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 
@@ -62,7 +62,15 @@ public class MachineRoomScreen extends Screen {
     @Override
     public void tick() {
         super.tick();
-        psdButton.setEnabled(minecraft.player.isCreative() || hasPsdItem());
+
+        if (this.scene != null) {
+            var level = ((VirtualLevel) scene.originalLevel().get());
+            level.tick(minecraft.getPartialTick());
+            level.animateTick();
+        }
+
+        if(psdButton != null)
+            psdButton.setEnabled(minecraft.player.isCreative() || hasPsdItem());
     }
 
     @Override
@@ -75,7 +83,55 @@ public class MachineRoomScreen extends Screen {
         return true;
     }
 
-//    @Override
+    @Override
+    public boolean mouseScrolled(double p_94686_, double p_94687_, double p_94688_) {
+        this.renderer.zoom(p_94688_);
+        return super.mouseScrolled(p_94686_, p_94687_, p_94688_);
+    }
+
+    @Override
+    public boolean keyPressed(int code, int scanCode, int modifiers) {
+        final float rotateSpeed = 1 / 12f;
+
+//        if (code == InputConstants.KEY_A) {
+//            this.autoRotate = !autoRotate;
+//            return true;
+//        }
+
+        if (code == InputConstants.KEY_R) {
+            renderer.camera().resetLook();
+            this.renderer.recalculateTranslucency();
+            return true;
+        }
+
+        if (code == InputConstants.KEY_UP) {
+            renderer.camera().lookUp(rotateSpeed);
+            this.renderer.recalculateTranslucency();
+            return true;
+        }
+
+        if (code == InputConstants.KEY_DOWN) {
+            renderer.camera().lookDown(rotateSpeed);
+            this.renderer.recalculateTranslucency();
+            return true;
+        }
+
+        if (code == InputConstants.KEY_LEFT) {
+            renderer.camera().lookLeft(rotateSpeed);
+            this.renderer.recalculateTranslucency();
+            return true;
+        }
+
+        if (code == InputConstants.KEY_RIGHT) {
+            renderer.camera().lookRight(rotateSpeed);
+            this.renderer.recalculateTranslucency();
+            return true;
+        }
+
+        return super.keyPressed(code, scanCode, modifiers);
+    }
+
+    //    @Override
 //    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
 //        PoseStack pose = graphics.pose();
 //        pose.pushPose();

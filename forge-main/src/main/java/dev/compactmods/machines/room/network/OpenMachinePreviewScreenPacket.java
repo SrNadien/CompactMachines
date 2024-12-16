@@ -2,6 +2,7 @@ package dev.compactmods.machines.room.network;
 
 import dev.compactmods.machines.CompactMachines;
 import dev.compactmods.machines.room.network.client.ClientRoomNetworkHandler;
+import java.util.function.Supplier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtAccounter;
@@ -9,8 +10,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
 
 public record OpenMachinePreviewScreenPacket(ChunkPos roomChunk, StructureTemplate internalBlocks) {
     public void toNetwork(FriendlyByteBuf friendlyByteBuf) {
@@ -30,8 +29,12 @@ public record OpenMachinePreviewScreenPacket(ChunkPos roomChunk, StructureTempla
 
     public static boolean handle(OpenMachinePreviewScreenPacket pkt, Supplier<NetworkEvent.Context> context) {
         //context.get().enqueueWork(() -> {
-        CompactMachines.LOGGER.debug("Opening machine preview screen: {}", pkt.roomChunk);
-        ClientRoomNetworkHandler.openRoomPreviewScreen(pkt);
+        try {
+            CompactMachines.LOGGER.debug("Opening machine preview screen: {}", pkt.roomChunk);
+            ClientRoomNetworkHandler.openRoomPreviewScreen(pkt);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
         // });
 
         return true;
