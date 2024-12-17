@@ -1,5 +1,5 @@
 [versions]
-gander = "[0.1.7]"
+gander = "[0.1.9]"
 
 [libraries.ganderCore]
 module = "dev.compactmods.gander:core"
